@@ -7,8 +7,28 @@
 
     <script type="module" src="/build/web-components.esm.js"></script>
     <script nomodule src="/build/web-components.js"></script>
+    <style>
+      span {
+        color: red;
+      }
+
+      button {
+        /* border: none; */
+      }
+
+      div {
+        position: relative;
+        margin-top: 10px;
+      }
+    </style>
   </head>
   <body>
+    <span>Datepicker</span>
+    <button>sapi</button>
     <my-component first="Stencil" last="'Don't call me a framework' JS"></my-component>
+    <div>
+      <input id="date-picker-1" type="text">
+      <date-picker id="date-picker-1"></date-picker>
+    </div>
   </body>
 </html>

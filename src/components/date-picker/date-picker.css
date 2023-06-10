@@ -1,0 +1,22 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  z-index: 10;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  background: white;
+  top: calc(100% + 0.4rem);
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+}
+
+span {
+  color: blue;
+}
+
+@media (min-width: 1024px) {
+  :host {
+    background: red;
+    flex-direction: row;
+  }
+}

@@ -6,6 +6,17 @@
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
 export namespace Components {
+    interface DateItem {
+        "date": number;
+    }
+    interface DatePicker {
+        "defaultValue": Date;
+        "id": string;
+    }
+    interface MonthYearSwitcher {
+        "isNavigator": boolean;
+        "label": string;
+    }
     interface MyComponent {
         /**
           * The first name
@@ -20,19 +31,72 @@ export namespace Components {
          */
         "middle": string;
     }
+    interface PrevNextButton {
+        "direction": 'prev' | 'next';
+    }
+    interface SingleDatePicker {
+        "currentMonth": number;
+        "currentYear": number;
+    }
 }
 declare global {
+    interface HTMLDateItemElement extends Components.DateItem, HTMLStencilElement {
+    }
+    var HTMLDateItemElement: {
+        prototype: HTMLDateItemElement;
+        new (): HTMLDateItemElement;
+    };
+    interface HTMLDatePickerElement extends Components.DatePicker, HTMLStencilElement {
+    }
+    var HTMLDatePickerElement: {
+        prototype: HTMLDatePickerElement;
+        new (): HTMLDatePickerElement;
+    };
+    interface HTMLMonthYearSwitcherElement extends Components.MonthYearSwitcher, HTMLStencilElement {
+    }
+    var HTMLMonthYearSwitcherElement: {
+        prototype: HTMLMonthYearSwitcherElement;
+        new (): HTMLMonthYearSwitcherElement;
+    };
     interface HTMLMyComponentElement extends Components.MyComponent, HTMLStencilElement {
     }
     var HTMLMyComponentElement: {
         prototype: HTMLMyComponentElement;
         new (): HTMLMyComponentElement;
     };
+    interface HTMLPrevNextButtonElement extends Components.PrevNextButton, HTMLStencilElement {
+    }
+    var HTMLPrevNextButtonElement: {
+        prototype: HTMLPrevNextButtonElement;
+        new (): HTMLPrevNextButtonElement;
+    };
+    interface HTMLSingleDatePickerElement extends Components.SingleDatePicker, HTMLStencilElement {
+    }
+    var HTMLSingleDatePickerElement: {
+        prototype: HTMLSingleDatePickerElement;
+        new (): HTMLSingleDatePickerElement;
+    };
     interface HTMLElementTagNameMap {
+        "date-item": HTMLDateItemElement;
+        "date-picker": HTMLDatePickerElement;
+        "month-year-switcher": HTMLMonthYearSwitcherElement;
         "my-component": HTMLMyComponentElement;
+        "prev-next-button": HTMLPrevNextButtonElement;
+        "single-date-picker": HTMLSingleDatePickerElement;
     }
 }
 declare namespace LocalJSX {
+    interface DateItem {
+        "date"?: number;
+    }
+    interface DatePicker {
+        "defaultValue"?: Date;
+        "id"?: string;
+    }
+    interface MonthYearSwitcher {
+        "isNavigator"?: boolean;
+        "label"?: string;
+    }
     interface MyComponent {
         /**
           * The first name
@@ -47,15 +111,32 @@ declare namespace LocalJSX {
          */
         "middle"?: string;
     }
+    interface PrevNextButton {
+        "direction"?: 'prev' | 'next';
+    }
+    interface SingleDatePicker {
+        "currentMonth": number;
+        "currentYear": number;
+    }
     interface IntrinsicElements {
+        "date-item": DateItem;
+        "date-picker": DatePicker;
+        "month-year-switcher": MonthYearSwitcher;
         "my-component": MyComponent;
+        "prev-next-button": PrevNextButton;
+        "single-date-picker": SingleDatePicker;
     }
 }
 export { LocalJSX as JSX };
 declare module "@stencil/core" {
     export namespace JSX {
         interface IntrinsicElements {
+            "date-item": LocalJSX.DateItem & JSXBase.HTMLAttributes<HTMLDateItemElement>;
+            "date-picker": LocalJSX.DatePicker & JSXBase.HTMLAttributes<HTMLDatePickerElement>;
+            "month-year-switcher": LocalJSX.MonthYearSwitcher & JSXBase.HTMLAttributes<HTMLMonthYearSwitcherElement>;
             "my-component": LocalJSX.MyComponent & JSXBase.HTMLAttributes<HTMLMyComponentElement>;
+            "prev-next-button": LocalJSX.PrevNextButton & JSXBase.HTMLAttributes<HTMLPrevNextButtonElement>;
+            "single-date-picker": LocalJSX.SingleDatePicker & JSXBase.HTMLAttributes<HTMLSingleDatePickerElement>;
         }
     }
 }
