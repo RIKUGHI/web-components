@@ -6,7 +6,7 @@ import clsx from 'clsx';
   styleUrl: 'month-year-switcher.css',
 })
 export class MonthYearSwitcher {
-  @Prop() label: string;
+  @Prop() label: string | number;
   @Prop() isNavigator: boolean;
   @Prop() active: boolean;
   @Prop() isYearNegative: boolean;

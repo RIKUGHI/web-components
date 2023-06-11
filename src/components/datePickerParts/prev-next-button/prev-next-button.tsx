@@ -1,10 +1,9 @@
-import { Component, Host, h, Prop } from '@stencil/core';
+import { Component, Prop, h } from '@stencil/core';
 import clsx from 'clsx';
 
 @Component({
   tag: 'prev-next-button',
   styleUrl: 'prev-next-button.css',
-  // shadow: true,
 })
 export class PrevNextButton {
   @Prop() direction: 'prev' | 'next';
