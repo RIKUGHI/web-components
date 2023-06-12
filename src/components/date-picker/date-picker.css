@@ -23,6 +23,10 @@
   font-family: var(--font-family);
 }
 
+:host(.bottom-to-top) {
+  bottom: 100%;
+}
+
 button {
   border: none;
   outline: none;

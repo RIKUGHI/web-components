@@ -30,6 +30,7 @@ export class SingleDatePicker {
   @Prop() currentYear!: number;
   @Prop() setCurrentMonth!: (month: number, year: number, idComp: IdDatePickerState) => void;
   @Prop() setCurrentYear!: (year: number, month: number, idComp: IdDatePickerState) => void;
+  @Prop() setSelected!: (v: Date) => void;
 
   @State() activeTab: TabState = null;
   @State() numberofYearsShown: number = 12;
@@ -46,24 +47,21 @@ export class SingleDatePicker {
 
   @Watch('currentMonth')
   watchPropCurrentMonth(newValue: number, oldValue: number) {
-    this.lastDateofMonth = new Date(this.currentYear, newValue + 1, 0).getDate();
-
-    this.firstDayofMonth = new Date(this.currentYear, newValue, 1).getDay();
-    this.lastDayofMonth = new Date(this.currentYear, newValue, this.lastDateofMonth).getDay();
-
-    this.lostMonth = new Date(this.currentYear, newValue, 0);
-    this.lostMonthIndex = this.lostMonth.getMonth();
-    this.lastDateofLostMonth = this.lostMonth.getDate();
+    this.adjustItself(this.currentYear, newValue);
   }
 
   @Watch('currentYear')
   watchPropCurrentYear(newValue: number, oldValue: number) {
-    this.lastDateofMonth = new Date(newValue, this.currentMonth + 1, 0).getDate();
+    this.adjustItself(newValue, this.currentMonth);
+  }
 
-    this.firstDayofMonth = new Date(newValue, this.currentMonth, 1).getDay();
-    this.lastDayofMonth = new Date(newValue, this.currentMonth, this.lastDateofMonth).getDay();
+  private adjustItself(year: number, month: number) {
+    this.lastDateofMonth = new Date(year, month + 1, 0).getDate();
 
-    this.lostMonth = new Date(newValue, this.currentMonth, 0);
+    this.firstDayofMonth = new Date(year, month, 1).getDay();
+    this.lastDayofMonth = new Date(year, month, this.lastDateofMonth).getDay();
+
+    this.lostMonth = new Date(year, month, 0);
     this.lostMonthIndex = this.lostMonth.getMonth();
     this.lastDateofLostMonth = this.lostMonth.getDate();
   }
@@ -108,6 +106,53 @@ export class SingleDatePicker {
     this.activeTab = null;
   }
 
+  // function getSelectedType(d: Date): SelectedState {
+  //   if (selected instanceof Date)
+  //     return isSameDate(selected, d) ? "SINGLE" : undefined
+
+  //   if (selected !== null && typeof selected === "object") {
+  //     const { startDate, endDate } = selected
+
+  //     if (
+  //       startDate instanceof Date &&
+  //       endDate instanceof Date &&
+  //       isSameDate(startDate, d) &&
+  //       isSameDate(endDate, d)
+  //     )
+  //       return "SINGLE"
+
+  //     if (startDate instanceof Date && isSameDate(startDate, d)) return "START"
+  //     else if (endDate instanceof Date && isSameDate(endDate, d)) return "END"
+  //   }
+
+  //   return undefined
+  // }
+
+  // function isPreSelected(d: Date) {
+  //   if (selected instanceof Date) return false
+
+  //   if (
+  //     selected !== null &&
+  //     typeof selected === "object" &&
+  //     selected.startDate instanceof Date &&
+  //     selected.endDate instanceof Date &&
+  //     selected.startDate < d &&
+  //     d < selected.endDate
+  //   )
+  //     return true
+
+  //   return false
+  // }
+
+  // private isDisabled(d: Date) {
+  //   minDate?.setHours(0, 0, 0, 0)
+  //   maxDate?.setHours(0, 0, 0, 0)
+
+  //   return (
+  //     (minDate ? d < minDate : undefined) || (maxDate ? d > maxDate : undefined)
+  //   )
+  // }
+
   private getLastDatesOfLostMonth() {
     const el: Element[] = [];
 
@@ -118,7 +163,18 @@ export class SingleDatePicker {
       let isSun = day === 0;
       const mergedDate = new Date(this.currentYear, this.currentMonth - 1, lostDate);
 
-      el.push(dateItem({ date: lostDate, isSun, extendedDate: true }));
+      el.push(
+        dateItem({
+          date: lostDate,
+          isSun,
+          extendedDate: true,
+          onClick: () => {
+            this.handlePrevNext('PREV', (year, month) => {
+              this.setSelected(new Date(year, month, lostDate));
+            });
+          },
+        }),
+      );
     }
 
     return el;
@@ -134,7 +190,7 @@ export class SingleDatePicker {
       let isSun = day === 0;
       let isToday = i === new Date().getDate() && this.currentMonth === new Date().getMonth() && this.currentYear === new Date().getFullYear();
 
-      el.push(dateItem({ date: i, isToday, isSun }));
+      el.push(dateItem({ date: i, isToday, isSun, onClick: () => this.setSelected(date) }));
     }
 
     return el;
@@ -147,7 +203,17 @@ export class SingleDatePicker {
       const date = i - this.lastDayofMonth + 1;
       const mergedDate = new Date(this.currentYear, this.currentMonth + 1, date);
 
-      el.push(dateItem({ date, extendedDate: true }));
+      el.push(
+        dateItem({
+          date,
+          extendedDate: true,
+          onClick: () => {
+            this.handlePrevNext('NEXT', (year, month) => {
+              this.setSelected(new Date(year, month, date));
+            });
+          },
+        }),
+      );
     }
 
     return el;

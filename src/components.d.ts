@@ -10,7 +10,7 @@ export { IdDatePickerState } from "./components/datePickerParts/single-date-pick
 export namespace Components {
     interface DatePicker {
         "defaultValue": Date;
-        "id": string;
+        "target": string;
     }
     interface MonthYearSwitcher {
         "active": boolean;
@@ -44,6 +44,7 @@ export namespace Components {
         "picker_id": IdDatePickerState;
         "setCurrentMonth": (month: number, year: number, idComp: IdDatePickerState) => void;
         "setCurrentYear": (year: number, month: number, idComp: IdDatePickerState) => void;
+        "setSelected": (v: Date) => void;
     }
 }
 declare global {
@@ -88,7 +89,7 @@ declare global {
 declare namespace LocalJSX {
     interface DatePicker {
         "defaultValue"?: Date;
-        "id"?: string;
+        "target"?: string;
     }
     interface MonthYearSwitcher {
         "active"?: boolean;
@@ -122,6 +123,7 @@ declare namespace LocalJSX {
         "picker_id": IdDatePickerState;
         "setCurrentMonth": (month: number, year: number, idComp: IdDatePickerState) => void;
         "setCurrentYear": (year: number, month: number, idComp: IdDatePickerState) => void;
+        "setSelected": (v: Date) => void;
     }
     interface IntrinsicElements {
         "date-picker": DatePicker;
