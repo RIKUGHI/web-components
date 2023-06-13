@@ -5,11 +5,11 @@
  * It contains typing information for all components that exist in this project.
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
-import { IdDatePickerState } from "./components/datePickerParts/single-date-picker/single-date-picker";
-export { IdDatePickerState } from "./components/datePickerParts/single-date-picker/single-date-picker";
+import { DateRangeType, IdDatePickerState, NullableDate } from "./components/datePickerParts/single-date-picker/single-date-picker";
+export { DateRangeType, IdDatePickerState, NullableDate } from "./components/datePickerParts/single-date-picker/single-date-picker";
 export namespace Components {
     interface DatePicker {
-        "defaultValue": Date;
+        "defaultStyle": string;
         "target": string;
     }
     interface MonthYearSwitcher {
@@ -42,6 +42,7 @@ export namespace Components {
         "currentMonth": number;
         "currentYear": number;
         "picker_id": IdDatePickerState;
+        "selected": NullableDate | DateRangeType;
         "setCurrentMonth": (month: number, year: number, idComp: IdDatePickerState) => void;
         "setCurrentYear": (year: number, month: number, idComp: IdDatePickerState) => void;
         "setSelected": (v: Date) => void;
@@ -88,7 +89,7 @@ declare global {
 }
 declare namespace LocalJSX {
     interface DatePicker {
-        "defaultValue"?: Date;
+        "defaultStyle"?: string;
         "target"?: string;
     }
     interface MonthYearSwitcher {
@@ -121,6 +122,7 @@ declare namespace LocalJSX {
         "currentMonth": number;
         "currentYear": number;
         "picker_id": IdDatePickerState;
+        "selected": NullableDate | DateRangeType;
         "setCurrentMonth": (month: number, year: number, idComp: IdDatePickerState) => void;
         "setCurrentYear": (year: number, month: number, idComp: IdDatePickerState) => void;
         "setSelected": (v: Date) => void;

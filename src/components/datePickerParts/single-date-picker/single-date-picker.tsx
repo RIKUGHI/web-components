@@ -1,24 +1,17 @@
 import { Component, Host, Prop, State, h, Fragment, Watch } from '@stencil/core';
-import { days, months } from '../../../utils/dateUtils';
+import { days, isSameDate, months } from '../../../utils/dateUtils';
 import clsx from 'clsx';
-import dateItem from '../dateItem';
+import dateItem, { SelectedState } from '../dateItem';
 
 export type IdDatePickerState = 'datePicker1' | 'datePicker2';
 export type DatePickerNavigationType = 'PREV' | 'NEXT';
 type TabState = 'MONTH' | 'YEAR' | null;
 
-// export type SelectedState = 'START' | 'SINGLE' | 'END' | undefined;
-// interface DateItem {
-//   date?: number;
-//   isToday?: boolean;
-//   isSun?: boolean;
-//   extendedDate?: boolean;
-//   disabled?: boolean;
-//   preSelected?: boolean;
-//   selectedType?: SelectedState;
-//   onClick?: () => void;
-//   onMouseEnter?: () => void;
-// }
+export type NullableDate = null | Date;
+export type DateRangeType = {
+  startDate: NullableDate;
+  endDate: NullableDate;
+};
 
 @Component({
   tag: 'single-date-picker',
@@ -28,6 +21,7 @@ export class SingleDatePicker {
   @Prop() picker_id!: IdDatePickerState;
   @Prop() currentMonth!: number;
   @Prop() currentYear!: number;
+  @Prop() selected!: NullableDate | DateRangeType;
   @Prop() setCurrentMonth!: (month: number, year: number, idComp: IdDatePickerState) => void;
   @Prop() setCurrentYear!: (year: number, month: number, idComp: IdDatePickerState) => void;
   @Prop() setSelected!: (v: Date) => void;
@@ -106,27 +100,20 @@ export class SingleDatePicker {
     this.activeTab = null;
   }
 
-  // function getSelectedType(d: Date): SelectedState {
-  //   if (selected instanceof Date)
-  //     return isSameDate(selected, d) ? "SINGLE" : undefined
+  private getSelectedType(d: Date): SelectedState {
+    if (this.selected instanceof Date) return isSameDate(this.selected, d) ? 'SINGLE' : undefined;
 
-  //   if (selected !== null && typeof selected === "object") {
-  //     const { startDate, endDate } = selected
+    if (this.selected !== null && typeof this.selected === 'object') {
+      const { startDate, endDate } = this.selected;
 
-  //     if (
-  //       startDate instanceof Date &&
-  //       endDate instanceof Date &&
-  //       isSameDate(startDate, d) &&
-  //       isSameDate(endDate, d)
-  //     )
-  //       return "SINGLE"
+      if (startDate instanceof Date && endDate instanceof Date && isSameDate(startDate, d) && isSameDate(endDate, d)) return 'SINGLE';
 
-  //     if (startDate instanceof Date && isSameDate(startDate, d)) return "START"
-  //     else if (endDate instanceof Date && isSameDate(endDate, d)) return "END"
-  //   }
+      if (startDate instanceof Date && isSameDate(startDate, d)) return 'START';
+      else if (endDate instanceof Date && isSameDate(endDate, d)) return 'END';
+    }
 
-  //   return undefined
-  // }
+    return undefined;
+  }
 
   // function isPreSelected(d: Date) {
   //   if (selected instanceof Date) return false
@@ -190,7 +177,7 @@ export class SingleDatePicker {
       let isSun = day === 0;
       let isToday = i === new Date().getDate() && this.currentMonth === new Date().getMonth() && this.currentYear === new Date().getFullYear();
 
-      el.push(dateItem({ date: i, isToday, isSun, onClick: () => this.setSelected(date) }));
+      el.push(dateItem({ date: i, isToday, isSun, selectedType: this.getSelectedType(date), onClick: () => this.setSelected(date) }));
     }
 
     return el;
@@ -220,8 +207,6 @@ export class SingleDatePicker {
   }
 
   render() {
-    // console.log(this.currentMonth, this.lastDateofMonth);
-
     return (
       <div class="flex flex-col p-5">
         <div class="flex items-center justify-between gap-2 rounded-md border border-gray-300 px-2 py-1.5">

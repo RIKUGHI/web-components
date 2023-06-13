@@ -1,7 +1,7 @@
 import { h } from '@stencil/core';
 import clsx from 'clsx';
 
-type SelectedState = 'START' | 'SINGLE' | 'END' | undefined;
+export type SelectedState = 'START' | 'SINGLE' | 'END' | undefined;
 interface DateItem {
   date?: number;
   isToday?: boolean;

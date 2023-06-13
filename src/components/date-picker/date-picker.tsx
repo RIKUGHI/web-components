@@ -1,5 +1,7 @@
-import { Component, Host, Prop, State, h, Element } from '@stencil/core';
+import { Component, Host, Prop, State, h, Element, Watch } from '@stencil/core';
 import clsx from 'clsx';
+import { formatDateToYYYYMMDD, isSameDate } from '../../utils/dateUtils';
+import { NullableDate } from '../datePickerParts/single-date-picker/single-date-picker';
 
 @Component({
   tag: 'date-picker',
@@ -8,21 +10,29 @@ import clsx from 'clsx';
 })
 export class DatePicker {
   @Prop() target: string;
-  @Prop() defaultValue: Date;
-
+  // @Prop() defaultValue: Date;
+  @Prop() defaultStyle: string;
+  // @Prop() defaultStyle: { [key: string]: string };
   @State() inputEl: null | HTMLInputElement = null;
 
   @State() openDatePicker: boolean = false;
+  @State() selected: NullableDate = null;
 
   @State() date: Date = new Date();
   @State() currentMonth: number = this.date.getMonth();
   @State() currentYear: number = this.date.getFullYear();
+
+  // @State() innerDefaultStyle: { [key: string]: string };
 
   @Element() hostEl: HTMLElement;
 
   datePickerContainerRef!: HTMLDivElement;
 
   connectedCallback() {
+    console.log(this.defaultStyle);
+    console.log(JSON.parse(this.defaultStyle));
+    // console.log(JSON.parse('{"--green-600": "orange"}'));
+
     const inputEl = document.getElementById(this.target);
 
     if (inputEl && inputEl.tagName === 'INPUT') {
@@ -31,10 +41,6 @@ export class DatePicker {
       this.inputEl.onblur = this.handleBlur.bind(this);
     }
   }
-
-  // componentDidLoad() {
-  //   console.log(this.hostEl.getBoundingClientRect());
-  // }
 
   private handleFocus() {
     this.openDatePicker = true;
@@ -67,17 +73,23 @@ export class DatePicker {
   }
 
   private handleSetSelected(d: Date) {
-    // if (!selected || (selected && !isSameDate(selected, d))) {
-    //   setSelected(d)
-    //   if (onChange) onChange(d)
-    // }
-    // inputRef.current?.blur()
+    if (!this.selected || (this.selected && !isSameDate(this.selected, d))) {
+      this.inputEl.value = formatDateToYYYYMMDD(d);
+      this.selected = d;
+      // if (onChange) onChange(d)
+    }
+    this.inputEl.blur();
   }
 
   render() {
     return (
       // <Host style={{ '--green-600': 'red' }}>
       <Host
+        // style={{
+        //   '--green-600': 'orange',
+        //   '--red-600': 'blue',
+        // }}
+        style={JSON.parse(this.defaultStyle)}
         class={
           {
             // 'top-to-bottom': true,
@@ -90,6 +102,7 @@ export class DatePicker {
             picker_id="datePicker1"
             currentMonth={this.currentMonth}
             currentYear={this.currentYear}
+            selected={this.selected}
             setCurrentMonth={this.handleSetCurrentMonth.bind(this)}
             setCurrentYear={this.handleSetCurrentYear.bind(this)}
             setSelected={this.handleSetSelected.bind(this)}
