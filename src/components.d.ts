@@ -5,8 +5,12 @@
  * It contains typing information for all components that exist in this project.
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
-import { DateRangeType, IdDatePickerState, NullableDate } from "./components/datePickerParts/single-date-picker/single-date-picker";
-export { DateRangeType, IdDatePickerState, NullableDate } from "./components/datePickerParts/single-date-picker/single-date-picker";
+import { DateRangeType } from "./components/datePickerParts/single-date-picker/single-date-picker";
+import { ShortcutType } from "./components/date-range-picker/date-range-picker";
+import { DateRangeType as DateRangeType1, IdDatePickerState, NullableDate } from "./components/datePickerParts/single-date-picker/single-date-picker";
+export { DateRangeType } from "./components/datePickerParts/single-date-picker/single-date-picker";
+export { ShortcutType } from "./components/date-range-picker/date-range-picker";
+export { DateRangeType as DateRangeType1, IdDatePickerState, NullableDate } from "./components/datePickerParts/single-date-picker/single-date-picker";
 export namespace Components {
     interface DatePicker {
         "defaultStyle": string;
@@ -14,6 +18,12 @@ export namespace Components {
           * YYYY-MM-DD
          */
         "defaultValue": string;
+        "target": string;
+    }
+    interface DateRangePicker {
+        "defaultValue": DateRangeType;
+        "shortcutList": boolean | ShortcutType[];
+        "showFooter": boolean;
         "target": string;
     }
     interface MyComponent {
@@ -33,8 +43,9 @@ export namespace Components {
     interface SingleDatePicker {
         "currentMonth": number;
         "currentYear": number;
+        "onMouseEnterDate": (v: Date) => void;
         "picker_id": IdDatePickerState;
-        "selected": NullableDate | DateRangeType;
+        "selected": NullableDate | DateRangeType1;
         "setCurrentMonth": (month: number, year: number, idComp: IdDatePickerState) => void;
         "setCurrentYear": (year: number, month: number, idComp: IdDatePickerState) => void;
         "setSelected": (v: Date) => void;
@@ -46,6 +57,12 @@ declare global {
     var HTMLDatePickerElement: {
         prototype: HTMLDatePickerElement;
         new (): HTMLDatePickerElement;
+    };
+    interface HTMLDateRangePickerElement extends Components.DateRangePicker, HTMLStencilElement {
+    }
+    var HTMLDateRangePickerElement: {
+        prototype: HTMLDateRangePickerElement;
+        new (): HTMLDateRangePickerElement;
     };
     interface HTMLMyComponentElement extends Components.MyComponent, HTMLStencilElement {
     }
@@ -61,6 +78,7 @@ declare global {
     };
     interface HTMLElementTagNameMap {
         "date-picker": HTMLDatePickerElement;
+        "date-range-picker": HTMLDateRangePickerElement;
         "my-component": HTMLMyComponentElement;
         "single-date-picker": HTMLSingleDatePickerElement;
     }
@@ -72,6 +90,12 @@ declare namespace LocalJSX {
           * YYYY-MM-DD
          */
         "defaultValue"?: string;
+        "target"?: string;
+    }
+    interface DateRangePicker {
+        "defaultValue"?: DateRangeType;
+        "shortcutList"?: boolean | ShortcutType[];
+        "showFooter"?: boolean;
         "target"?: string;
     }
     interface MyComponent {
@@ -91,14 +115,16 @@ declare namespace LocalJSX {
     interface SingleDatePicker {
         "currentMonth": number;
         "currentYear": number;
+        "onMouseEnterDate"?: (v: Date) => void;
         "picker_id": IdDatePickerState;
-        "selected": NullableDate | DateRangeType;
+        "selected": NullableDate | DateRangeType1;
         "setCurrentMonth": (month: number, year: number, idComp: IdDatePickerState) => void;
         "setCurrentYear": (year: number, month: number, idComp: IdDatePickerState) => void;
         "setSelected": (v: Date) => void;
     }
     interface IntrinsicElements {
         "date-picker": DatePicker;
+        "date-range-picker": DateRangePicker;
         "my-component": MyComponent;
         "single-date-picker": SingleDatePicker;
     }
@@ -108,6 +134,7 @@ declare module "@stencil/core" {
     export namespace JSX {
         interface IntrinsicElements {
             "date-picker": LocalJSX.DatePicker & JSXBase.HTMLAttributes<HTMLDatePickerElement>;
+            "date-range-picker": LocalJSX.DateRangePicker & JSXBase.HTMLAttributes<HTMLDateRangePickerElement>;
             "my-component": LocalJSX.MyComponent & JSXBase.HTMLAttributes<HTMLMyComponentElement>;
             "single-date-picker": LocalJSX.SingleDatePicker & JSXBase.HTMLAttributes<HTMLSingleDatePickerElement>;
         }

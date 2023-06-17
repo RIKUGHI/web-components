@@ -27,6 +27,7 @@ export class SingleDatePicker {
   @Prop() setCurrentMonth!: (month: number, year: number, idComp: IdDatePickerState) => void;
   @Prop() setCurrentYear!: (year: number, month: number, idComp: IdDatePickerState) => void;
   @Prop() setSelected!: (v: Date) => void;
+  @Prop() onMouseEnterDate: (v: Date) => void;
 
   @State() activeTab: TabState = null;
   @State() numberofYearsShown: number = 12;
@@ -117,20 +118,29 @@ export class SingleDatePicker {
     return undefined;
   }
 
-  // function isPreSelected(d: Date) {
-  //   if (selected instanceof Date) return false
+  private isPreSelected(d: Date) {
+    if (this.selected instanceof Date) return false;
 
-  //   if (
-  //     selected !== null &&
-  //     typeof selected === "object" &&
-  //     selected.startDate instanceof Date &&
-  //     selected.endDate instanceof Date &&
-  //     selected.startDate < d &&
-  //     d < selected.endDate
+    if (
+      this.selected !== null &&
+      typeof this.selected === 'object' &&
+      this.selected.startDate instanceof Date &&
+      this.selected.endDate instanceof Date &&
+      this.selected.startDate < d &&
+      d < this.selected.endDate
+    )
+      return true;
+
+    return false;
+  }
+
+  // private isDisabled(d: Date) {
+  //   minDate?.setHours(0, 0, 0, 0)
+  //   maxDate?.setHours(0, 0, 0, 0)
+
+  //   return (
+  //     (minDate ? d < minDate : undefined) || (maxDate ? d > maxDate : undefined)
   //   )
-  //     return true
-
-  //   return false
   // }
 
   // private isDisabled(d: Date) {
@@ -162,6 +172,7 @@ export class SingleDatePicker {
               this.setSelected(new Date(year, month, lostDate));
             });
           },
+          onMouseEnter: this.onMouseEnterDate ? () => this.onMouseEnterDate(mergedDate) : undefined,
         }),
       );
     }
@@ -179,7 +190,17 @@ export class SingleDatePicker {
       let isSun = day === 0;
       let isToday = i === new Date().getDate() && this.currentMonth === new Date().getMonth() && this.currentYear === new Date().getFullYear();
 
-      el.push(dateItem({ date: i, isToday, isSun, selectedType: this.getSelectedType(date), onClick: () => this.setSelected(date) }));
+      el.push(
+        dateItem({
+          date: i,
+          isToday,
+          isSun,
+          preSelected: this.isPreSelected(date),
+          selectedType: this.getSelectedType(date),
+          onClick: () => this.setSelected(date),
+          onMouseEnter: this.onMouseEnterDate ? () => this.onMouseEnterDate(date) : undefined,
+        }),
+      );
     }
 
     return el;
@@ -201,6 +222,7 @@ export class SingleDatePicker {
               this.setSelected(new Date(year, month, date));
             });
           },
+          onMouseEnter: this.onMouseEnterDate ? () => this.onMouseEnterDate(mergedDate) : undefined,
         }),
       );
     }
