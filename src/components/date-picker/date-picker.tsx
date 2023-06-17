@@ -14,6 +14,8 @@ export class DatePicker {
    */
   @Prop() defaultValue: string;
   @Prop() defaultStyle: string;
+  @Prop() minDate: Date;
+  @Prop() maxDate: Date;
   @State() inputEl: null | HTMLInputElement = null;
 
   @State() selected: NullableDate = null;
@@ -94,6 +96,8 @@ export class DatePicker {
             currentMonth={this.currentMonth}
             currentYear={this.currentYear}
             selected={this.selected}
+            minDate={this.minDate}
+            maxDate={this.maxDate}
             setCurrentMonth={this.handleSetCurrentMonth.bind(this)}
             setCurrentYear={this.handleSetCurrentYear.bind(this)}
             setSelected={this.handleSetSelected.bind(this)}

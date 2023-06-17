@@ -38,6 +38,7 @@ export default function dateItem({ date, isToday, isSun, extendedDate, disabled,
         preSelected && 'bg-green-50',
         !extendedDate && !selectedType && !preSelected && !disabled && 'rounded-lg hover:bg-green-600 hover:text-white',
         extendedDate && !disabled && 'rounded-lg hover:bg-green-600/70 hover:text-white/70',
+        disabled && 'cursor-context-menu',
       )}
       disabled={disabled}
       onClick={onClick}

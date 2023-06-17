@@ -18,10 +18,14 @@ export namespace Components {
           * YYYY-MM-DD
          */
         "defaultValue": string;
+        "maxDate": Date;
+        "minDate": Date;
         "target": string;
     }
     interface DateRangePicker {
         "defaultValue": DateRangeType;
+        "maxDate": Date;
+        "minDate": Date;
         "shortcutList": boolean | ShortcutType[];
         "showFooter": boolean;
         "target": string;
@@ -43,11 +47,13 @@ export namespace Components {
     interface SingleDatePicker {
         "currentMonth": number;
         "currentYear": number;
-        "onMouseEnterDate": (v: Date) => void;
+        "maxDate": Date;
+        "minDate": Date;
         "picker_id": IdDatePickerState;
         "selected": NullableDate | DateRangeType1;
         "setCurrentMonth": (month: number, year: number, idComp: IdDatePickerState) => void;
         "setCurrentYear": (year: number, month: number, idComp: IdDatePickerState) => void;
+        "setMouseEnterDate": (v: Date) => void;
         "setSelected": (v: Date) => void;
     }
 }
@@ -90,10 +96,14 @@ declare namespace LocalJSX {
           * YYYY-MM-DD
          */
         "defaultValue"?: string;
+        "maxDate"?: Date;
+        "minDate"?: Date;
         "target"?: string;
     }
     interface DateRangePicker {
         "defaultValue"?: DateRangeType;
+        "maxDate"?: Date;
+        "minDate"?: Date;
         "shortcutList"?: boolean | ShortcutType[];
         "showFooter"?: boolean;
         "target"?: string;
@@ -115,11 +125,13 @@ declare namespace LocalJSX {
     interface SingleDatePicker {
         "currentMonth": number;
         "currentYear": number;
-        "onMouseEnterDate"?: (v: Date) => void;
+        "maxDate"?: Date;
+        "minDate"?: Date;
         "picker_id": IdDatePickerState;
         "selected": NullableDate | DateRangeType1;
         "setCurrentMonth": (month: number, year: number, idComp: IdDatePickerState) => void;
         "setCurrentYear": (year: number, month: number, idComp: IdDatePickerState) => void;
+        "setMouseEnterDate"?: (v: Date) => void;
         "setSelected": (v: Date) => void;
     }
     interface IntrinsicElements {

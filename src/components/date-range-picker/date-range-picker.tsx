@@ -19,6 +19,8 @@ export class DateRangePicker {
   @Prop() target: string;
 
   @Prop() defaultValue: DateRangeType;
+  @Prop() minDate: Date;
+  @Prop() maxDate: Date;
   @Prop() shortcutList: boolean | ShortcutType[];
   @Prop() showFooter: boolean = false;
   @State() inputEl: null | HTMLInputElement = null;
@@ -285,10 +287,12 @@ export class DateRangePicker {
                 currentMonth={this.currentMonth1}
                 currentYear={this.currentYear1}
                 selected={this.selected}
+                minDate={this.minDate}
+                maxDate={this.maxDate}
                 setCurrentMonth={this.handleSetCurrentMonth.bind(this)}
                 setCurrentYear={this.handleSetCurrentYear.bind(this)}
                 setSelected={this.handleSetSelected.bind(this)}
-                onMouseEnterDate={this.handleMouseEnterDate.bind(this)}
+                setMouseEnterDate={this.handleMouseEnterDate.bind(this)}
               />
               <div class="border-r border-gray-300"></div>
               <single-date-picker
@@ -296,10 +300,12 @@ export class DateRangePicker {
                 currentMonth={this.currentMonth2}
                 currentYear={this.currentYear2}
                 selected={this.selected}
+                minDate={this.minDate}
+                maxDate={this.maxDate}
                 setCurrentMonth={this.handleSetCurrentMonth.bind(this)}
                 setCurrentYear={this.handleSetCurrentYear.bind(this)}
                 setSelected={this.handleSetSelected.bind(this)}
-                onMouseEnterDate={this.handleMouseEnterDate.bind(this)}
+                setMouseEnterDate={this.handleMouseEnterDate.bind(this)}
               />
             </div>
             {this.showFooter && (

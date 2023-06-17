@@ -24,10 +24,12 @@ export class SingleDatePicker {
   @Prop() currentMonth!: number;
   @Prop() currentYear!: number;
   @Prop() selected!: NullableDate | DateRangeType;
+  @Prop() minDate: Date;
+  @Prop() maxDate: Date;
   @Prop() setCurrentMonth!: (month: number, year: number, idComp: IdDatePickerState) => void;
   @Prop() setCurrentYear!: (year: number, month: number, idComp: IdDatePickerState) => void;
   @Prop() setSelected!: (v: Date) => void;
-  @Prop() onMouseEnterDate: (v: Date) => void;
+  @Prop() setMouseEnterDate: (v: Date) => void;
 
   @State() activeTab: TabState = null;
   @State() numberofYearsShown: number = 12;
@@ -134,23 +136,12 @@ export class SingleDatePicker {
     return false;
   }
 
-  // private isDisabled(d: Date) {
-  //   minDate?.setHours(0, 0, 0, 0)
-  //   maxDate?.setHours(0, 0, 0, 0)
+  private isDisabled(d: Date) {
+    this.minDate?.setHours(0, 0, 0, 0);
+    this.maxDate?.setHours(0, 0, 0, 0);
 
-  //   return (
-  //     (minDate ? d < minDate : undefined) || (maxDate ? d > maxDate : undefined)
-  //   )
-  // }
-
-  // private isDisabled(d: Date) {
-  //   minDate?.setHours(0, 0, 0, 0)
-  //   maxDate?.setHours(0, 0, 0, 0)
-
-  //   return (
-  //     (minDate ? d < minDate : undefined) || (maxDate ? d > maxDate : undefined)
-  //   )
-  // }
+    return (this.minDate ? d < this.minDate : undefined) || (this.maxDate ? d > this.maxDate : undefined);
+  }
 
   private getLastDatesOfLostMonth() {
     const el: Element[] = [];
@@ -167,12 +158,13 @@ export class SingleDatePicker {
           date: lostDate,
           isSun,
           extendedDate: true,
+          disabled: this.isDisabled(mergedDate),
           onClick: () => {
             this.handlePrevNext('PREV', (year, month) => {
               this.setSelected(new Date(year, month, lostDate));
             });
           },
-          onMouseEnter: this.onMouseEnterDate ? () => this.onMouseEnterDate(mergedDate) : undefined,
+          onMouseEnter: this.setMouseEnterDate ? () => this.setMouseEnterDate(mergedDate) : undefined,
         }),
       );
     }
@@ -195,10 +187,11 @@ export class SingleDatePicker {
           date: i,
           isToday,
           isSun,
+          disabled: this.isDisabled(date),
           preSelected: this.isPreSelected(date),
           selectedType: this.getSelectedType(date),
           onClick: () => this.setSelected(date),
-          onMouseEnter: this.onMouseEnterDate ? () => this.onMouseEnterDate(date) : undefined,
+          onMouseEnter: this.setMouseEnterDate ? () => this.setMouseEnterDate(date) : undefined,
         }),
       );
     }
@@ -217,12 +210,13 @@ export class SingleDatePicker {
         dateItem({
           date,
           extendedDate: true,
+          disabled: this.isDisabled(mergedDate),
           onClick: () => {
             this.handlePrevNext('NEXT', (year, month) => {
               this.setSelected(new Date(year, month, date));
             });
           },
-          onMouseEnter: this.onMouseEnterDate ? () => this.onMouseEnterDate(mergedDate) : undefined,
+          onMouseEnter: this.setMouseEnterDate ? () => this.setMouseEnterDate(mergedDate) : undefined,
         }),
       );
     }
