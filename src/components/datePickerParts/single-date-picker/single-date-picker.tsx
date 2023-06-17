@@ -2,6 +2,8 @@ import { Component, Host, Prop, State, h, Fragment, Watch } from '@stencil/core'
 import { days, isSameDate, months } from '../../../utils/dateUtils';
 import clsx from 'clsx';
 import dateItem, { SelectedState } from '../dateItem';
+import monthYearSwitcher from '../monthYearSwitcher';
+import prevNextButton from '../prevNextButton';
 
 export type IdDatePickerState = 'datePicker1' | 'datePicker2';
 export type DatePickerNavigationType = 'PREV' | 'NEXT';
@@ -210,29 +212,42 @@ export class SingleDatePicker {
     return (
       <div class="flex flex-col p-5">
         <div class="flex items-center justify-between gap-2 rounded-md border border-gray-300 px-2 py-1.5">
-          {this.activeTab !== 'MONTH' && (
-            <prev-next-button
-              direction="prev"
-              isYearNegative={this.activeTab === 'YEAR' && this.currentYear + this.stackedYearIntervals < 0}
-              onClick={() => this.handlePrevNext('PREV')}
-            />
-          )}
+          {this.activeTab !== 'MONTH' &&
+            prevNextButton({
+              direction: 'prev',
+              isYearNegative: this.activeTab === 'YEAR' && this.currentYear + this.stackedYearIntervals < 0,
+              onClick: () => this.handlePrevNext('PREV'),
+            })}
 
-          <month-year-switcher label={months[this.currentMonth]} isNavigator active={this.activeTab === 'MONTH'} onClick={() => this.handleToggleTab('MONTH')} />
-          <month-year-switcher label={this.currentYear} isNavigator active={this.activeTab === 'YEAR'} onClick={() => this.handleToggleTab('YEAR')} />
+          {monthYearSwitcher({
+            label: months[this.currentMonth],
+            isNavigator: true,
+            active: this.activeTab === 'MONTH',
+            onClick: () => this.handleToggleTab('MONTH'),
+          })}
+          {monthYearSwitcher({
+            label: this.currentYear,
+            isNavigator: true,
+            active: this.activeTab === 'YEAR',
+            onClick: () => this.handleToggleTab('YEAR'),
+          })}
 
-          {this.activeTab !== 'MONTH' && <prev-next-button direction="next" onClick={() => this.handlePrevNext('NEXT')} />}
+          {this.activeTab !== 'MONTH' && prevNextButton({ direction: 'next', onClick: () => this.handlePrevNext('NEXT') })}
         </div>
 
         <div class={clsx('grid w-7-cols text-center text-gray-900', this.activeTab === 'MONTH' || this.activeTab === 'YEAR' ? 'mt-3 grid-cols-2 gap-2' : 'grid-cols-7')}>
-          {this.activeTab === 'MONTH' && months.map((month, i) => <month-year-switcher key={i} label={month} onClick={() => this.handleActiveMonth(i)} />)}
+          {this.activeTab === 'MONTH' && months.map((month, i) => monthYearSwitcher({ label: month, onClick: () => this.handleActiveMonth(i) }))}
 
           {this.activeTab === 'YEAR' &&
             Array.from({ length: this.numberofYearsShown }).map((_, i) => {
               const year = this.currentYear + i + this.stackedYearIntervals;
               const isYearNegative = year < 0;
 
-              return <month-year-switcher key={i} label={year} isYearNegative={year < 0} onClick={() => this.handleActiveYear(year)} />;
+              return monthYearSwitcher({
+                label: year,
+                isYearNegative,
+                onClick: () => this.handleActiveYear(year),
+              });
             })}
 
           {!this.activeTab && (

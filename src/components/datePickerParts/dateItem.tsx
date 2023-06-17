@@ -2,7 +2,7 @@ import { h } from '@stencil/core';
 import clsx from 'clsx';
 
 export type SelectedState = 'START' | 'SINGLE' | 'END' | undefined;
-interface DateItem {
+interface Props {
   date?: number;
   isToday?: boolean;
   isSun?: boolean;
@@ -14,9 +14,10 @@ interface DateItem {
   onMouseEnter?: () => void;
 }
 
-export default function dateItem({ date, isToday, isSun, extendedDate, disabled, preSelected, selectedType, onClick, onMouseEnter }: DateItem) {
+export default function dateItem({ date, isToday, isSun, extendedDate, disabled, preSelected, selectedType, onClick, onMouseEnter }: Props) {
   return (
     <button
+      tabIndex={-1}
       class={clsx(
         'relative flex h-10 w-10 items-center justify-center font-semibold font-family text-xs',
         selectedType

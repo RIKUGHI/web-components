@@ -1,5 +1,4 @@
-import { Component, Host, Prop, State, h, Element, Watch } from '@stencil/core';
-import clsx from 'clsx';
+import { Component, Element, Host, Prop, State, h } from '@stencil/core';
 import { formatDateToYYYYMMDD, isSameDate } from '../../utils/dateUtils';
 import { NullableDate } from '../datePickerParts/single-date-picker/single-date-picker';
 
@@ -10,29 +9,24 @@ import { NullableDate } from '../datePickerParts/single-date-picker/single-date-
 })
 export class DatePicker {
   @Prop() target: string;
-  // @Prop() defaultValue: Date;
+  /**
+   * YYYY-MM-DD
+   */
+  @Prop() defaultValue: string;
   @Prop() defaultStyle: string;
-  // @Prop() defaultStyle: { [key: string]: string };
   @State() inputEl: null | HTMLInputElement = null;
 
-  @State() openDatePicker: boolean = false;
   @State() selected: NullableDate = null;
 
   @State() date: Date = new Date();
   @State() currentMonth: number = this.date.getMonth();
   @State() currentYear: number = this.date.getFullYear();
 
-  // @State() innerDefaultStyle: { [key: string]: string };
-
   @Element() hostEl: HTMLElement;
 
   datePickerContainerRef!: HTMLDivElement;
 
   connectedCallback() {
-    console.log(this.defaultStyle);
-    console.log(JSON.parse(this.defaultStyle));
-    // console.log(JSON.parse('{"--green-600": "orange"}'));
-
     const inputEl = document.getElementById(this.target);
 
     if (inputEl && inputEl.tagName === 'INPUT') {
@@ -42,12 +36,24 @@ export class DatePicker {
     }
   }
 
-  private handleFocus() {
-    this.openDatePicker = true;
+  componentWillLoad() {
+    const defaultValue = new Date(this.defaultValue);
 
+    if (isNaN(defaultValue.getDate())) return;
+
+    defaultValue.setHours(0, 0, 0, 0);
+    this.selected = defaultValue;
+  }
+
+  private handleFocus() {
     // auto directions
     this.datePickerContainerRef.classList.replace('hidden', 'flex');
-    this.datePickerContainerRef.classList.add(this.datePickerContainerRef.getBoundingClientRect().bottom + 10 > window.innerHeight ? 'bottom-to-top' : 'top-to-bottom');
+    if (this.datePickerContainerRef.getBoundingClientRect().bottom + 10 > window.innerHeight) {
+      this.datePickerContainerRef.classList.add('bottom-to-top');
+      this.hostEl.classList.add('bottom-to-top');
+    } else {
+      this.datePickerContainerRef.classList.add('top-to-bottom');
+    }
 
     window.onmousedown = e => {
       const isClickedInsideDatePickerContainer = this.hostEl.contains(e.target as Node);
@@ -57,7 +63,6 @@ export class DatePicker {
   }
 
   private handleBlur() {
-    this.openDatePicker = false;
     this.datePickerContainerRef.classList.replace('flex', 'hidden');
     this.datePickerContainerRef.classList.remove('top-to-bottom');
     this.datePickerContainerRef.classList.remove('bottom-to-top');
@@ -76,27 +81,13 @@ export class DatePicker {
     if (!this.selected || (this.selected && !isSameDate(this.selected, d))) {
       this.inputEl.value = formatDateToYYYYMMDD(d);
       this.selected = d;
-      // if (onChange) onChange(d)
     }
     this.inputEl.blur();
   }
 
   render() {
     return (
-      // <Host style={{ '--green-600': 'red' }}>
-      <Host
-        // style={{
-        //   '--green-600': 'orange',
-        //   '--red-600': 'blue',
-        // }}
-        style={JSON.parse(this.defaultStyle)}
-        class={
-          {
-            // 'top-to-bottom': true,
-            // 'bottom-to-top': true,
-          }
-        }
-      >
+      <Host style={this.defaultStyle ? JSON.parse(this.defaultStyle) : undefined}>
         <div ref={el => (this.datePickerContainerRef = el as HTMLDivElement)} class="hidden absolute z-10 flex-col rounded-md border border-gray-300 bg-white">
           <single-date-picker
             picker_id="datePicker1"

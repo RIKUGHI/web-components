@@ -10,14 +10,11 @@ export { DateRangeType, IdDatePickerState, NullableDate } from "./components/dat
 export namespace Components {
     interface DatePicker {
         "defaultStyle": string;
+        /**
+          * YYYY-MM-DD
+         */
+        "defaultValue": string;
         "target": string;
-    }
-    interface MonthYearSwitcher {
-        "active": boolean;
-        "isNavigator": boolean;
-        "isYearNegative": boolean;
-        "label": string | number;
-        "onClick": () => void;
     }
     interface MyComponent {
         /**
@@ -32,11 +29,6 @@ export namespace Components {
           * The middle name
          */
         "middle": string;
-    }
-    interface PrevNextButton {
-        "direction": 'prev' | 'next';
-        "isYearNegative": boolean;
-        "onClick": () => void;
     }
     interface SingleDatePicker {
         "currentMonth": number;
@@ -55,23 +47,11 @@ declare global {
         prototype: HTMLDatePickerElement;
         new (): HTMLDatePickerElement;
     };
-    interface HTMLMonthYearSwitcherElement extends Components.MonthYearSwitcher, HTMLStencilElement {
-    }
-    var HTMLMonthYearSwitcherElement: {
-        prototype: HTMLMonthYearSwitcherElement;
-        new (): HTMLMonthYearSwitcherElement;
-    };
     interface HTMLMyComponentElement extends Components.MyComponent, HTMLStencilElement {
     }
     var HTMLMyComponentElement: {
         prototype: HTMLMyComponentElement;
         new (): HTMLMyComponentElement;
-    };
-    interface HTMLPrevNextButtonElement extends Components.PrevNextButton, HTMLStencilElement {
-    }
-    var HTMLPrevNextButtonElement: {
-        prototype: HTMLPrevNextButtonElement;
-        new (): HTMLPrevNextButtonElement;
     };
     interface HTMLSingleDatePickerElement extends Components.SingleDatePicker, HTMLStencilElement {
     }
@@ -81,23 +61,18 @@ declare global {
     };
     interface HTMLElementTagNameMap {
         "date-picker": HTMLDatePickerElement;
-        "month-year-switcher": HTMLMonthYearSwitcherElement;
         "my-component": HTMLMyComponentElement;
-        "prev-next-button": HTMLPrevNextButtonElement;
         "single-date-picker": HTMLSingleDatePickerElement;
     }
 }
 declare namespace LocalJSX {
     interface DatePicker {
         "defaultStyle"?: string;
+        /**
+          * YYYY-MM-DD
+         */
+        "defaultValue"?: string;
         "target"?: string;
-    }
-    interface MonthYearSwitcher {
-        "active"?: boolean;
-        "isNavigator"?: boolean;
-        "isYearNegative"?: boolean;
-        "label"?: string | number;
-        "onClick"?: () => void;
     }
     interface MyComponent {
         /**
@@ -113,11 +88,6 @@ declare namespace LocalJSX {
          */
         "middle"?: string;
     }
-    interface PrevNextButton {
-        "direction"?: 'prev' | 'next';
-        "isYearNegative"?: boolean;
-        "onClick"?: () => void;
-    }
     interface SingleDatePicker {
         "currentMonth": number;
         "currentYear": number;
@@ -129,9 +99,7 @@ declare namespace LocalJSX {
     }
     interface IntrinsicElements {
         "date-picker": DatePicker;
-        "month-year-switcher": MonthYearSwitcher;
         "my-component": MyComponent;
-        "prev-next-button": PrevNextButton;
         "single-date-picker": SingleDatePicker;
     }
 }
@@ -140,9 +108,7 @@ declare module "@stencil/core" {
     export namespace JSX {
         interface IntrinsicElements {
             "date-picker": LocalJSX.DatePicker & JSXBase.HTMLAttributes<HTMLDatePickerElement>;
-            "month-year-switcher": LocalJSX.MonthYearSwitcher & JSXBase.HTMLAttributes<HTMLMonthYearSwitcherElement>;
             "my-component": LocalJSX.MyComponent & JSXBase.HTMLAttributes<HTMLMyComponentElement>;
-            "prev-next-button": LocalJSX.PrevNextButton & JSXBase.HTMLAttributes<HTMLPrevNextButtonElement>;
             "single-date-picker": LocalJSX.SingleDatePicker & JSXBase.HTMLAttributes<HTMLSingleDatePickerElement>;
         }
     }

@@ -25,16 +25,20 @@
     <span>Datepicker</span>
     <button>sapi</button>
     <my-component first="Stencil" last="'Don't call me a framework' JS"></my-component>
-    <!-- <div style="background: red; height: 300px;"></div> -->
-    <div style="border: 1px solid black;">
-      <input id="date-picker-1" type="text" style="height: 38px;">
-      <date-picker target="date-picker-1" default-style='{"--green-600":"orange"}'></date-picker>
-      <!-- <div style="background: blue; width: 20px; height: 20px; position: absolute; bottom: 100%;"></div> -->
+    <div style="border: 1px solid black">
+      <input id="date-picker-1" type="text" style="height: 38px" />
+      <!-- <date-picker target="date-picker-1" default-style='{"--green-600":"orange"}'></date-picker> -->
+      <date-picker target="date-picker-1" default-value="2023-06-15"></date-picker>
+    </div>
+    <div style="height: 400px"></div>
+    <div style="border: 1px solid black">
+      <input id="date-picker-2" type="text" style="height: 38px" />
+      <!-- <date-picker target="date-picker-1" default-style='{"--green-600":"orange"}'></date-picker> -->
+      <date-picker target="date-picker-2"></date-picker>
     </div>
     <script>
-      // const datePicker = document.querySelector('date-picker')
-      // console.log(datePicker);
-      // datePicker.defaultStyle = { '--green-600': 'orange' }
+      // const datePicker = document.querySelector('date-picker');
+      // datePicker.defaultStyle = '{"--green-600":"orange"}';
     </script>
   </body>
 </html>
