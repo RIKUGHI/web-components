@@ -1,6 +1,6 @@
-import { Component, Host, Prop, State, h, Fragment, Watch } from '@stencil/core';
-import { days, isSameDate, months } from '../../../utils/dateUtils';
+import { Component, Fragment, Prop, State, Watch, h } from '@stencil/core';
 import clsx from 'clsx';
+import { days, isSameDate, months } from '../../../utils/dateUtils';
 import dateItem, { SelectedState } from '../dateItem';
 import monthYearSwitcher from '../monthYearSwitcher';
 import prevNextButton from '../prevNextButton';
@@ -45,12 +45,12 @@ export class SingleDatePicker {
   @State() lastDateofLostMonth = this.lostMonth.getDate();
 
   @Watch('currentMonth')
-  watchPropCurrentMonth(newValue: number, oldValue: number) {
+  watchPropCurrentMonth(newValue: number) {
     this.adjustItself(this.currentYear, newValue);
   }
 
   @Watch('currentYear')
-  watchPropCurrentYear(newValue: number, oldValue: number) {
+  watchPropCurrentYear(newValue: number) {
     this.adjustItself(newValue, this.currentMonth);
   }
 
