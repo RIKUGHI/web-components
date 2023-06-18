@@ -18,17 +18,22 @@ export namespace Components {
           * YYYY-MM-DD
          */
         "defaultValue": string;
+        "displayFormat": (d: Date) => string;
         "maxDate": Date;
         "minDate": Date;
         "target": string;
     }
     interface DateRangePicker {
+        "defaultStyle": string;
         "defaultValue": DateRangeType;
+        "displayFormat": (d: Date) => string;
         "maxDate": Date;
         "minDate": Date;
+        "placeholder": string;
+        "separator": string;
         "shortcutList": boolean | ShortcutType[];
-        "showFooter": boolean;
         "target": string;
+        "useConfirmation": boolean;
     }
     interface MyComponent {
         /**
@@ -96,17 +101,22 @@ declare namespace LocalJSX {
           * YYYY-MM-DD
          */
         "defaultValue"?: string;
+        "displayFormat"?: (d: Date) => string;
         "maxDate"?: Date;
         "minDate"?: Date;
         "target"?: string;
     }
     interface DateRangePicker {
+        "defaultStyle"?: string;
         "defaultValue"?: DateRangeType;
+        "displayFormat"?: (d: Date) => string;
         "maxDate"?: Date;
         "minDate"?: Date;
+        "placeholder"?: string;
+        "separator"?: string;
         "shortcutList"?: boolean | ShortcutType[];
-        "showFooter"?: boolean;
         "target"?: string;
+        "useConfirmation"?: boolean;
     }
     interface MyComponent {
         /**

@@ -19,10 +19,14 @@ export class DateRangePicker {
   @Prop() target: string;
 
   @Prop() defaultValue: DateRangeType;
+  @Prop() defaultStyle: string;
   @Prop() minDate: Date;
   @Prop() maxDate: Date;
+  @Prop() displayFormat: (d: Date) => string;
+  @Prop() placeholder: string;
+  @Prop() separator: string;
   @Prop() shortcutList: boolean | ShortcutType[];
-  @Prop() showFooter: boolean = false;
+  @Prop() useConfirmation: boolean = false;
   @State() inputEl: null | HTMLInputElement = null;
 
   @State() datePickerClickCount: number = 1;
@@ -142,12 +146,12 @@ export class DateRangePicker {
     if (this.datePickerClickCount === 2) {
       newDateRange = this.sortAndResetDateRange(newDateRange);
 
-      if (!this.showFooter) this.inputEl.blur();
+      if (!this.useConfirmation) this.inputEl.blur();
     }
 
     if (!this.hasMouseEnteredDate) this.selected = newDateRange;
 
-    if (!this.showFooter) {
+    if (!this.useConfirmation) {
       this.inputEl.value = this.displayDateRange(this.hasMouseEnteredDate ? this.selected : newDateRange);
     }
 
@@ -214,7 +218,7 @@ export class DateRangePicker {
     this.selected = sortedDateRange;
     this.adjustDateRangePicker(sortedDateRange);
 
-    if (!this.showFooter) {
+    if (!this.useConfirmation) {
       this.inputEl.value = this.displayDateRange(sortedDateRange);
       this.inputEl.blur();
     }
@@ -245,10 +249,10 @@ export class DateRangePicker {
     for (const key in d) {
       const dateValue = d[key as keyof DateRangeType];
 
-      if (dateValue) mergedValue.push(formatDateToYYYYMMDD(dateValue));
+      if (dateValue) mergedValue.push(this.displayFormat ? this.displayFormat(dateValue) : formatDateToYYYYMMDD(dateValue));
     }
 
-    return mergedValue.join(' ~ ');
+    return mergedValue.join(this.separator ?? ' ~ ');
   }
 
   render() {
@@ -265,7 +269,7 @@ export class DateRangePicker {
     if (typeof this.shortcutList === 'object' && this.shortcutList.length > 0) defaultShortcutList.push(...this.shortcutList);
 
     return (
-      <Host>
+      <Host style={this.defaultStyle ? JSON.parse(this.defaultStyle) : undefined}>
         <div
           ref={el => (this.datePickerContainerRef = el as HTMLDivElement)}
           class="hidden top-to-bottom absolute z-10 flex-col rounded-md border border-gray-300 bg-white md:flex-row"
@@ -308,13 +312,13 @@ export class DateRangePicker {
                 setMouseEnterDate={this.handleMouseEnterDate.bind(this)}
               />
             </div>
-            {this.showFooter && (
+            {this.useConfirmation && (
               <div class="flex flex-col justify-between space-y-4 border-t border-gray-300 px-6 py-4 md:flex-row md:space-y-0">
                 <div class="flex items-center space-x-5">
                   <div class="flex w-full items-center space-x-2 text-sm font-semibold md:w-auto">
-                    {previewDate({ date: this.selected.startDate })}
+                    {previewDate({ date: this.selected.startDate, placeholder: this.placeholder, displayFormat: this.displayFormat })}
                     <span class="mt-0.5 h-0.5 w-3 bg-gray-400"></span>
-                    {previewDate({ date: this.selected.endDate })}
+                    {previewDate({ date: this.selected.endDate, placeholder: this.placeholder, displayFormat: this.displayFormat })}
                   </div>
                   {this.selected.startDate && this.selected.endDate && (
                     <span class="hidden text-sm font-semibold md:block">
