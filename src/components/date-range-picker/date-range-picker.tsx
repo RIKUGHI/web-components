@@ -43,6 +43,8 @@ export class DateRangePicker {
   @State() currentMonth2: number = this.date2.getMonth();
   @State() currentYear2: number = this.date2.getFullYear();
 
+  @State() open: boolean = false;
+
   @Element() hostEl: HTMLElement;
 
   datePickerContainerRef!: HTMLDivElement;
@@ -66,6 +68,7 @@ export class DateRangePicker {
   }
 
   private handleFocus() {
+    this.open = true;
     this.datePickerContainerRef.classList.replace('hidden', 'flex');
 
     this.adjustDateRangePicker(this.selected);
@@ -78,6 +81,7 @@ export class DateRangePicker {
   }
 
   private handleBlur() {
+    this.open = false;
     this.datePickerContainerRef.classList.replace('flex', 'hidden');
 
     window.onmousedown = null;
@@ -274,7 +278,7 @@ export class DateRangePicker {
           ref={el => (this.datePickerContainerRef = el as HTMLDivElement)}
           class="hidden top-to-bottom absolute z-10 flex-col rounded-md border border-gray-300 bg-white md:flex-row"
         >
-          {this.shortcutList && (
+          {this.open && this.shortcutList && (
             <div class="hidden w-full border-b border-gray-300 py-4 sm:block md:w-36 md:border-r md:py-6">
               <ul class="grid grid-cols-2 text-xs md:grid-cols-1">
                 {defaultShortcutList.map(shortcut => (
@@ -284,56 +288,58 @@ export class DateRangePicker {
             </div>
           )}
 
-          <div class="flex flex-col">
-            <div class="flex flex-col sm:flex-row">
-              <single-date-picker
-                picker_id="datePicker1"
-                currentMonth={this.currentMonth1}
-                currentYear={this.currentYear1}
-                selected={this.selected}
-                minDate={this.minDate}
-                maxDate={this.maxDate}
-                setCurrentMonth={this.handleSetCurrentMonth.bind(this)}
-                setCurrentYear={this.handleSetCurrentYear.bind(this)}
-                setSelected={this.handleSetSelected.bind(this)}
-                setMouseEnterDate={this.handleMouseEnterDate.bind(this)}
-              />
-              <div class="border-r border-gray-300"></div>
-              <single-date-picker
-                picker_id="datePicker2"
-                currentMonth={this.currentMonth2}
-                currentYear={this.currentYear2}
-                selected={this.selected}
-                minDate={this.minDate}
-                maxDate={this.maxDate}
-                setCurrentMonth={this.handleSetCurrentMonth.bind(this)}
-                setCurrentYear={this.handleSetCurrentYear.bind(this)}
-                setSelected={this.handleSetSelected.bind(this)}
-                setMouseEnterDate={this.handleMouseEnterDate.bind(this)}
-              />
-            </div>
-            {this.useConfirmation && (
-              <div class="flex flex-col justify-between space-y-4 border-t border-gray-300 px-6 py-4 md:flex-row md:space-y-0">
-                <div class="flex items-center space-x-5">
-                  <div class="flex w-full items-center space-x-2 text-sm font-semibold md:w-auto">
-                    {previewDate({ date: this.selected.startDate, placeholder: this.placeholder, displayFormat: this.displayFormat })}
-                    <span class="mt-0.5 h-0.5 w-3 bg-gray-400"></span>
-                    {previewDate({ date: this.selected.endDate, placeholder: this.placeholder, displayFormat: this.displayFormat })}
-                  </div>
-                  {this.selected.startDate && this.selected.endDate && (
-                    <span class="hidden text-sm font-semibold md:block">
-                      {countDatesInRange(this.selected.startDate, this.selected.endDate)} days <span class="text-gray-400">selected</span>
-                    </span>
-                  )}
-                </div>
-
-                <div class="flex space-x-2">
-                  {dateRangeConfirmationButton({ label: 'Cancel', onClick: this.handleCancel.bind(this) })}
-                  {dateRangeConfirmationButton({ label: 'Apply', disabled: !this.selected.startDate || !this.selected.endDate, onClick: this.handleApply.bind(this) })}
-                </div>
+          {this.open && (
+            <div class="flex flex-col">
+              <div class="flex flex-col sm:flex-row">
+                <single-date-picker
+                  picker_id="datePicker1"
+                  currentMonth={this.currentMonth1}
+                  currentYear={this.currentYear1}
+                  selected={this.selected}
+                  minDate={this.minDate}
+                  maxDate={this.maxDate}
+                  setCurrentMonth={this.handleSetCurrentMonth.bind(this)}
+                  setCurrentYear={this.handleSetCurrentYear.bind(this)}
+                  setSelected={this.handleSetSelected.bind(this)}
+                  setMouseEnterDate={this.handleMouseEnterDate.bind(this)}
+                />
+                <div class="border-r border-gray-300"></div>
+                <single-date-picker
+                  picker_id="datePicker2"
+                  currentMonth={this.currentMonth2}
+                  currentYear={this.currentYear2}
+                  selected={this.selected}
+                  minDate={this.minDate}
+                  maxDate={this.maxDate}
+                  setCurrentMonth={this.handleSetCurrentMonth.bind(this)}
+                  setCurrentYear={this.handleSetCurrentYear.bind(this)}
+                  setSelected={this.handleSetSelected.bind(this)}
+                  setMouseEnterDate={this.handleMouseEnterDate.bind(this)}
+                />
               </div>
-            )}
-          </div>
+              {this.useConfirmation && (
+                <div class="flex flex-col justify-between space-y-4 border-t border-gray-300 px-6 py-4 md:flex-row md:space-y-0">
+                  <div class="flex items-center space-x-5">
+                    <div class="flex w-full items-center space-x-2 text-sm font-semibold md:w-auto">
+                      {previewDate({ date: this.selected.startDate, placeholder: this.placeholder, displayFormat: this.displayFormat })}
+                      <span class="mt-0.5 h-0.5 w-3 bg-gray-400"></span>
+                      {previewDate({ date: this.selected.endDate, placeholder: this.placeholder, displayFormat: this.displayFormat })}
+                    </div>
+                    {this.selected.startDate && this.selected.endDate && (
+                      <span class="hidden text-sm font-semibold md:block">
+                        {countDatesInRange(this.selected.startDate, this.selected.endDate)} days <span class="text-gray-400">selected</span>
+                      </span>
+                    )}
+                  </div>
+
+                  <div class="flex space-x-2">
+                    {dateRangeConfirmationButton({ label: 'Cancel', onClick: this.handleCancel.bind(this) })}
+                    {dateRangeConfirmationButton({ label: 'Apply', disabled: !this.selected.startDate || !this.selected.endDate, onClick: this.handleApply.bind(this) })}
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
         </div>
       </Host>
     );

@@ -25,6 +25,8 @@ export class DatePicker {
   @State() currentMonth: number = this.date.getMonth();
   @State() currentYear: number = this.date.getFullYear();
 
+  @State() open: boolean = false;
+
   @Element() hostEl: HTMLElement;
 
   datePickerContainerRef!: HTMLDivElement;
@@ -49,6 +51,7 @@ export class DatePicker {
   }
 
   private handleFocus() {
+    this.open = true;
     // auto directions
     this.datePickerContainerRef.classList.replace('hidden', 'flex');
     if (this.datePickerContainerRef.getBoundingClientRect().bottom + 10 > window.innerHeight) {
@@ -66,6 +69,7 @@ export class DatePicker {
   }
 
   private handleBlur() {
+    this.open = false;
     this.datePickerContainerRef.classList.replace('flex', 'hidden');
     this.datePickerContainerRef.classList.remove('top-to-bottom');
     this.datePickerContainerRef.classList.remove('bottom-to-top');
@@ -92,17 +96,19 @@ export class DatePicker {
     return (
       <Host style={this.defaultStyle ? JSON.parse(this.defaultStyle) : undefined}>
         <div ref={el => (this.datePickerContainerRef = el as HTMLDivElement)} class="hidden absolute z-10 flex-col rounded-md border border-gray-300 bg-white">
-          <single-date-picker
-            picker_id="datePicker1"
-            currentMonth={this.currentMonth}
-            currentYear={this.currentYear}
-            selected={this.selected}
-            minDate={this.minDate}
-            maxDate={this.maxDate}
-            setCurrentMonth={this.handleSetCurrentMonth.bind(this)}
-            setCurrentYear={this.handleSetCurrentYear.bind(this)}
-            setSelected={this.handleSetSelected.bind(this)}
-          />
+          {this.open && (
+            <single-date-picker
+              picker_id="datePicker1"
+              currentMonth={this.currentMonth}
+              currentYear={this.currentYear}
+              selected={this.selected}
+              minDate={this.minDate}
+              maxDate={this.maxDate}
+              setCurrentMonth={this.handleSetCurrentMonth.bind(this)}
+              setCurrentYear={this.handleSetCurrentYear.bind(this)}
+              setSelected={this.handleSetSelected.bind(this)}
+            />
+          )}
         </div>
       </Host>
     );
