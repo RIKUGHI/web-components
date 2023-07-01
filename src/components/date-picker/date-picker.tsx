@@ -61,6 +61,7 @@ export class DatePicker {
         this.hostEl.classList.add('bottom-to-top');
       } else {
         this.datePickerContainerRef.classList.add('top-to-bottom');
+        this.hostEl.classList.remove('bottom-to-top');
       }
     }, 50);
 
