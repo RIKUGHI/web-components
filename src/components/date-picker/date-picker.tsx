@@ -52,14 +52,17 @@ export class DatePicker {
 
   private handleFocus() {
     this.open = true;
+
     // auto directions
-    this.datePickerContainerRef.classList.replace('hidden', 'flex');
-    if (this.datePickerContainerRef.getBoundingClientRect().bottom + 10 > window.innerHeight) {
-      this.datePickerContainerRef.classList.add('bottom-to-top');
-      this.hostEl.classList.add('bottom-to-top');
-    } else {
-      this.datePickerContainerRef.classList.add('top-to-bottom');
-    }
+    setTimeout(() => {
+      this.datePickerContainerRef.classList.replace('hidden', 'flex');
+      if (this.datePickerContainerRef.getBoundingClientRect().bottom + 10 > window.innerHeight) {
+        this.datePickerContainerRef.classList.add('bottom-to-top');
+        this.hostEl.classList.add('bottom-to-top');
+      } else {
+        this.datePickerContainerRef.classList.add('top-to-bottom');
+      }
+    }, 50);
 
     window.onmousedown = e => {
       const isClickedInsideDatePickerContainer = this.hostEl.contains(e.target as Node);
