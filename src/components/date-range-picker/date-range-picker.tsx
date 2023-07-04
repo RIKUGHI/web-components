@@ -64,7 +64,10 @@ export class DateRangePicker {
       throw new Error('The value structure must be of type DateRangeType');
     } else {
       this.selected = this.defaultValue ? this.sortAndResetDateRange(this.defaultValue) : { startDate: null, endDate: null };
-      this.inputEl.value = formatDateToYYYYMMDD(this.selected.startDate) + ' ~ ' + formatDateToYYYYMMDD(this.selected.endDate);
+
+      if (this.selected.startDate && this.selected.endDate) {
+        this.inputEl.value = formatDateToYYYYMMDD(this.selected.startDate) + ' ~ ' + formatDateToYYYYMMDD(this.selected.endDate);
+      }
     }
   }
 
