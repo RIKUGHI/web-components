@@ -48,6 +48,7 @@ export class DatePicker {
 
     defaultValue.setHours(0, 0, 0, 0);
     this.selected = defaultValue;
+    this.inputEl.value = formatDateToYYYYMMDD(defaultValue);
   }
 
   private handleFocus() {
