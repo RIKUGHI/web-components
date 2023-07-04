@@ -328,7 +328,8 @@ export class DateRangePicker {
                     </div>
                     {this.selected.startDate && this.selected.endDate && (
                       <span class="hidden text-sm font-semibold md:block">
-                        {countDatesInRange(this.selected.startDate, this.selected.endDate)} days <span class="text-gray-400">selected</span>
+                        {countDatesInRange(this.selected.startDate, this.selected.endDate)} {countDatesInRange(this.selected.startDate, this.selected.endDate) > 1 ? 'days' : 'day'}{' '}
+                        <span class="text-gray-400">selected</span>
                       </span>
                     )}
                   </div>
