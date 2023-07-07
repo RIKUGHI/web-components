@@ -1,8 +1,8 @@
 import { Component, Element, Host, Prop, State, h } from '@stencil/core';
-import shortcutItem from '../datePickerParts/shortcutItem';
 import { countDatesInRange, formatDateToYYYYMMDD, isDateRange } from '../../utils/dateUtils';
-import previewDate from '../datePickerParts/previewDate';
 import dateRangeConfirmationButton from '../datePickerParts/dateRangeConfirmationButton';
+import previewDate from '../datePickerParts/previewDate';
+import shortcutItem from '../datePickerParts/shortcutItem';
 import { DateRangeType, IdDatePickerState } from '../datePickerParts/single-date-picker/single-date-picker';
 
 export type ShortcutType = {
@@ -27,6 +27,7 @@ export class DateRangePicker {
   @Prop() separator: string;
   @Prop() shortcutList: boolean | ShortcutType[];
   @Prop() useConfirmation: boolean = false;
+  @Prop() rangeValueChanged: (v: string) => string;
   @State() inputEl: null | HTMLInputElement = null;
 
   @State() datePickerClickCount: number = 1;
@@ -260,7 +261,9 @@ export class DateRangePicker {
       if (dateValue) mergedValue.push(this.displayFormat ? this.displayFormat(dateValue) : formatDateToYYYYMMDD(dateValue));
     }
 
-    return mergedValue.join(this.separator ?? ' ~ ');
+    const value = mergedValue.join(this.separator ?? ' ~ ');
+    this.rangeValueChanged(value);
+    return value;
   }
 
   render() {
