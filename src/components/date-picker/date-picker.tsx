@@ -12,7 +12,7 @@ export class DatePicker {
   /**
    * YYYY-MM-DD
    */
-  @Prop() defaultValue: string;
+  @Prop() defaultValue: string | Date;
   @Prop() defaultStyle: string;
   @Prop() minDate: Date;
   @Prop() maxDate: Date;
@@ -48,6 +48,11 @@ export class DatePicker {
 
     defaultValue.setHours(0, 0, 0, 0);
     this.selected = defaultValue;
+
+    this.date = this.selected;
+    this.currentMonth = this.date.getMonth();
+    this.currentYear = this.date.getFullYear();
+
     this.inputEl.value = formatDateToYYYYMMDD(defaultValue);
   }
 

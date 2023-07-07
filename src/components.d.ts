@@ -7,9 +7,11 @@
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
 import { DateRangeType } from "./components/datePickerParts/single-date-picker/single-date-picker";
 import { ShortcutType } from "./components/date-range-picker/date-range-picker";
+import { Option } from "./components/select-2/select-2";
 import { DateRangeType as DateRangeType1, IdDatePickerState, NullableDate } from "./components/datePickerParts/single-date-picker/single-date-picker";
 export { DateRangeType } from "./components/datePickerParts/single-date-picker/single-date-picker";
 export { ShortcutType } from "./components/date-range-picker/date-range-picker";
+export { Option } from "./components/select-2/select-2";
 export { DateRangeType as DateRangeType1, IdDatePickerState, NullableDate } from "./components/datePickerParts/single-date-picker/single-date-picker";
 export namespace Components {
     interface DatePicker {
@@ -17,7 +19,7 @@ export namespace Components {
         /**
           * YYYY-MM-DD
          */
-        "defaultValue": string;
+        "defaultValue": string | Date;
         "displayFormat": (d: Date) => string;
         "maxDate": Date;
         "minDate": Date;
@@ -48,6 +50,13 @@ export namespace Components {
           * The middle name
          */
         "middle": string;
+    }
+    interface Select2 {
+        "defaultValue": Option | Option[];
+        "isClearable": boolean;
+        "isMulti": boolean;
+        "isSearchable": boolean;
+        "options": Option[];
     }
     interface SingleDatePicker {
         "currentMonth": number;
@@ -81,6 +90,12 @@ declare global {
         prototype: HTMLMyComponentElement;
         new (): HTMLMyComponentElement;
     };
+    interface HTMLSelect2Element extends Components.Select2, HTMLStencilElement {
+    }
+    var HTMLSelect2Element: {
+        prototype: HTMLSelect2Element;
+        new (): HTMLSelect2Element;
+    };
     interface HTMLSingleDatePickerElement extends Components.SingleDatePicker, HTMLStencilElement {
     }
     var HTMLSingleDatePickerElement: {
@@ -91,6 +106,7 @@ declare global {
         "date-picker": HTMLDatePickerElement;
         "date-range-picker": HTMLDateRangePickerElement;
         "my-component": HTMLMyComponentElement;
+        "select-2": HTMLSelect2Element;
         "single-date-picker": HTMLSingleDatePickerElement;
     }
 }
@@ -100,7 +116,7 @@ declare namespace LocalJSX {
         /**
           * YYYY-MM-DD
          */
-        "defaultValue"?: string;
+        "defaultValue"?: string | Date;
         "displayFormat"?: (d: Date) => string;
         "maxDate"?: Date;
         "minDate"?: Date;
@@ -132,6 +148,13 @@ declare namespace LocalJSX {
          */
         "middle"?: string;
     }
+    interface Select2 {
+        "defaultValue"?: Option | Option[];
+        "isClearable"?: boolean;
+        "isMulti"?: boolean;
+        "isSearchable"?: boolean;
+        "options"?: Option[];
+    }
     interface SingleDatePicker {
         "currentMonth": number;
         "currentYear": number;
@@ -148,6 +171,7 @@ declare namespace LocalJSX {
         "date-picker": DatePicker;
         "date-range-picker": DateRangePicker;
         "my-component": MyComponent;
+        "select-2": Select2;
         "single-date-picker": SingleDatePicker;
     }
 }
@@ -158,6 +182,7 @@ declare module "@stencil/core" {
             "date-picker": LocalJSX.DatePicker & JSXBase.HTMLAttributes<HTMLDatePickerElement>;
             "date-range-picker": LocalJSX.DateRangePicker & JSXBase.HTMLAttributes<HTMLDateRangePickerElement>;
             "my-component": LocalJSX.MyComponent & JSXBase.HTMLAttributes<HTMLMyComponentElement>;
+            "select-2": LocalJSX.Select2 & JSXBase.HTMLAttributes<HTMLSelect2Element>;
             "single-date-picker": LocalJSX.SingleDatePicker & JSXBase.HTMLAttributes<HTMLSingleDatePickerElement>;
         }
     }
