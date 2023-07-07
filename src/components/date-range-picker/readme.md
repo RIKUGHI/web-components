@@ -7,18 +7,19 @@
 
 ## Properties
 
-| Property          | Attribute          | Description | Type                                  | Default     |
-| ----------------- | ------------------ | ----------- | ------------------------------------- | ----------- |
-| `defaultStyle`    | `default-style`    |             | `string`                              | `undefined` |
-| `defaultValue`    | --                 |             | `{ startDate: Date; endDate: Date; }` | `undefined` |
-| `displayFormat`   | --                 |             | `(d: Date) => string`                 | `undefined` |
-| `maxDate`         | --                 |             | `Date`                                | `undefined` |
-| `minDate`         | --                 |             | `Date`                                | `undefined` |
-| `placeholder`     | `placeholder`      |             | `string`                              | `undefined` |
-| `separator`       | `separator`        |             | `string`                              | `undefined` |
-| `shortcutList`    | `shortcut-list`    |             | `ShortcutType[] \| boolean`           | `undefined` |
-| `target`          | `target`           |             | `string`                              | `undefined` |
-| `useConfirmation` | `use-confirmation` |             | `boolean`                             | `false`     |
+| Property            | Attribute          | Description | Type                                  | Default     |
+| ------------------- | ------------------ | ----------- | ------------------------------------- | ----------- |
+| `defaultStyle`      | `default-style`    |             | `string`                              | `undefined` |
+| `defaultValue`      | --                 |             | `{ startDate: Date; endDate: Date; }` | `undefined` |
+| `displayFormat`     | --                 |             | `(d: Date) => string`                 | `undefined` |
+| `maxDate`           | --                 |             | `Date`                                | `undefined` |
+| `minDate`           | --                 |             | `Date`                                | `undefined` |
+| `placeholder`       | `placeholder`      |             | `string`                              | `undefined` |
+| `rangeValueChanged` | --                 |             | `(v: string) => string`               | `undefined` |
+| `separator`         | `separator`        |             | `string`                              | `undefined` |
+| `shortcutList`      | `shortcut-list`    |             | `ShortcutType[] \| boolean`           | `undefined` |
+| `target`            | `target`           |             | `string`                              | `undefined` |
+| `useConfirmation`   | `use-confirmation` |             | `boolean`                             | `false`     |
 
 
 ## Dependencies

@@ -8,7 +8,7 @@
 | Property        | Attribute       | Description | Type                  | Default     |
 | --------------- | --------------- | ----------- | --------------------- | ----------- |
 | `defaultStyle`  | `default-style` |             | `string`              | `undefined` |
-| `defaultValue`  | `default-value` | YYYY-MM-DD  | `string`              | `undefined` |
+| `defaultValue`  | `default-value` | YYYY-MM-DD  | `Date \| string`      | `undefined` |
 | `displayFormat` | --              |             | `(d: Date) => string` | `undefined` |
 | `maxDate`       | --              |             | `Date`                | `undefined` |
 | `minDate`       | --              |             | `Date`                | `undefined` |

@@ -64,6 +64,13 @@ export class DateRangePicker {
     if (this.defaultValue === null || (this.defaultValue && !isDateRange(this.defaultValue))) {
       throw new Error('The value structure must be of type DateRangeType');
     } else {
+      const { startDate, endDate } = this.defaultValue;
+
+      if (isNaN(startDate.getDate()) || isNaN(endDate.getDate())) return;
+
+      startDate.setHours(0, 0, 0, 0);
+      endDate.setHours(0, 0, 0, 0);
+
       this.selected = this.defaultValue ? this.sortAndResetDateRange(this.defaultValue) : { startDate: null, endDate: null };
 
       if (this.selected.startDate && this.selected.endDate) {
