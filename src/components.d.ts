@@ -27,12 +27,12 @@ export namespace Components {
     }
     interface DateRangePicker {
         "defaultStyle": string;
-        "defaultValue": DateRangeType;
+        "defaultValue": undefined | DateRangeType;
         "displayFormat": (d: Date) => string;
         "maxDate": Date;
         "minDate": Date;
         "placeholder": string;
-        "rangeValueChanged": (v: string) => string;
+        "rangeValueChanged": undefined | ((v: string) => string);
         "separator": string;
         "shortcutList": boolean | ShortcutType[];
         "target": string;
@@ -125,12 +125,12 @@ declare namespace LocalJSX {
     }
     interface DateRangePicker {
         "defaultStyle"?: string;
-        "defaultValue"?: DateRangeType;
+        "defaultValue"?: undefined | DateRangeType;
         "displayFormat"?: (d: Date) => string;
         "maxDate"?: Date;
         "minDate"?: Date;
         "placeholder"?: string;
-        "rangeValueChanged"?: (v: string) => string;
+        "rangeValueChanged"?: undefined | ((v: string) => string);
         "separator"?: string;
         "shortcutList"?: boolean | ShortcutType[];
         "target"?: string;

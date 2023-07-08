@@ -18,7 +18,7 @@ export type ShortcutType = {
 export class DateRangePicker {
   @Prop() target: string;
 
-  @Prop() defaultValue: DateRangeType;
+  @Prop() defaultValue: undefined | DateRangeType;
   @Prop() defaultStyle: string;
   @Prop() minDate: Date;
   @Prop() maxDate: Date;
@@ -61,6 +61,7 @@ export class DateRangePicker {
   }
 
   componentWillLoad() {
+    if (typeof this.defaultValue === 'undefined') return;
     if (this.defaultValue === null || (this.defaultValue && !isDateRange(this.defaultValue))) {
       throw new Error('The value structure must be of type DateRangeType');
     } else {
