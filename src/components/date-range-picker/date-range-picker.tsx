@@ -27,7 +27,7 @@ export class DateRangePicker {
   @Prop() separator: string;
   @Prop() shortcutList: boolean | ShortcutType[];
   @Prop() useConfirmation: boolean = false;
-  @Prop() rangeValueChanged: (v: string) => string;
+  @Prop() rangeValueChanged: undefined | ((v: string) => string);
   @State() inputEl: null | HTMLInputElement = null;
 
   @State() datePickerClickCount: number = 1;
@@ -67,9 +67,6 @@ export class DateRangePicker {
       const { startDate, endDate } = this.defaultValue;
 
       if (isNaN(startDate.getDate()) || isNaN(endDate.getDate())) return;
-
-      startDate.setHours(0, 0, 0, 0);
-      endDate.setHours(0, 0, 0, 0);
 
       this.selected = this.defaultValue ? this.sortAndResetDateRange(this.defaultValue) : { startDate: null, endDate: null };
 
@@ -269,7 +266,7 @@ export class DateRangePicker {
     }
 
     const value = mergedValue.join(this.separator ?? ' ~ ');
-    this.rangeValueChanged(value);
+    if (this.rangeValueChanged) this.rangeValueChanged(value);
     return value;
   }
 
