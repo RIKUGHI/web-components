@@ -5,14 +5,15 @@
 
 ## Properties
 
-| Property        | Attribute       | Description | Type                  | Default     |
-| --------------- | --------------- | ----------- | --------------------- | ----------- |
-| `defaultStyle`  | `default-style` |             | `string`              | `undefined` |
-| `defaultValue`  | `default-value` | YYYY-MM-DD  | `Date \| string`      | `undefined` |
-| `displayFormat` | --              |             | `(d: Date) => string` | `undefined` |
-| `maxDate`       | --              |             | `Date`                | `undefined` |
-| `minDate`       | --              |             | `Date`                | `undefined` |
-| `target`        | `target`        |             | `string`              | `undefined` |
+| Property        | Attribute       | Description | Type                    | Default     |
+| --------------- | --------------- | ----------- | ----------------------- | ----------- |
+| `defaultStyle`  | `default-style` |             | `string`                | `undefined` |
+| `defaultValue`  | `default-value` | YYYY-MM-DD  | `Date \| string`        | `undefined` |
+| `displayFormat` | --              |             | `(d: Date) => string`   | `undefined` |
+| `maxDate`       | --              |             | `Date`                  | `undefined` |
+| `minDate`       | --              |             | `Date`                  | `undefined` |
+| `target`        | `target`        |             | `string`                | `undefined` |
+| `valueChanged`  | --              |             | `(v: string) => string` | `undefined` |
 
 
 ## Dependencies
