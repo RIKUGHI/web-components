@@ -24,6 +24,7 @@ export namespace Components {
         "maxDate": Date;
         "minDate": Date;
         "target": string;
+        "valueChanged": undefined | ((v: string) => string);
     }
     interface DateRangePicker {
         "defaultStyle": string;
@@ -122,6 +123,7 @@ declare namespace LocalJSX {
         "maxDate"?: Date;
         "minDate"?: Date;
         "target"?: string;
+        "valueChanged"?: undefined | ((v: string) => string);
     }
     interface DateRangePicker {
         "defaultStyle"?: string;

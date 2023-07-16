@@ -17,6 +17,7 @@ export class DatePicker {
   @Prop() minDate: Date;
   @Prop() maxDate: Date;
   @Prop() displayFormat: (d: Date) => string;
+  @Prop() valueChanged: undefined | ((v: string) => string);
   @State() inputEl: null | HTMLInputElement = null;
 
   @State() selected: NullableDate = null;
@@ -117,6 +118,7 @@ export class DatePicker {
     if (!this.selected || (this.selected && !isSameDate(this.selected, d))) {
       this.inputEl.value = this.displayFormat ? this.displayFormat(d) : formatDateToYYYYMMDD(d);
       this.selected = d;
+      if (this.valueChanged) this.valueChanged(this.inputEl.value);
     }
     this.inputEl.blur();
   }
