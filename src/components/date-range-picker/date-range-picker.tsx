@@ -61,25 +61,23 @@ export class DateRangePicker {
   }
 
   componentWillLoad() {
-    if (typeof this.defaultValue === 'undefined') return;
-    if (this.defaultValue === null || (this.defaultValue && !isDateRange(this.defaultValue))) {
-      throw new Error('The value structure must be of type DateRangeType');
-    } else {
-      const { startDate, endDate } = this.defaultValue;
+    this.handleSetSelectedWithPreview(this.defaultValue);
+  }
 
-      if (isNaN(startDate.getDate()) || isNaN(endDate.getDate())) return;
+  componentShouldUpdate(newValue, oldValue, propName) {
+    if (propName === 'defaultValue') {
+      this.handleSetSelectedWithPreview(newValue);
+    }
 
-      this.selected = this.defaultValue ? this.sortAndResetDateRange(this.defaultValue) : { startDate: null, endDate: null };
-
-      if (this.selected.startDate && this.selected.endDate) {
-        this.inputEl.value = formatDateToYYYYMMDD(this.selected.startDate) + ' ~ ' + formatDateToYYYYMMDD(this.selected.endDate);
-      }
+    if (oldValue) {
     }
   }
 
   private handleFocus() {
     this.open = true;
-    this.datePickerContainerRef.classList.replace('hidden', 'flex');
+    setTimeout(() => {
+      this.datePickerContainerRef.classList.replace('hidden', 'flex');
+    }, 50);
 
     this.adjustDateRangePicker(this.selected);
 
@@ -88,6 +86,23 @@ export class DateRangePicker {
 
       if (isClickedInsideDatePickerContainer) e.preventDefault();
     };
+  }
+
+  private handleSetSelectedWithPreview(v?: DateRangeType) {
+    if (typeof v === 'undefined') return;
+    if (v === null || (v && !isDateRange(v))) {
+      throw new Error('The value structure must be of type DateRangeType');
+    } else {
+      const { startDate, endDate } = v;
+
+      if (isNaN(startDate.getDate()) || isNaN(endDate.getDate())) return;
+
+      this.selected = this.sortAndResetDateRange(v);
+
+      if (this.selected.startDate && this.selected.endDate) {
+        this.inputEl.value = formatDateToYYYYMMDD(this.selected.startDate) + ' ~ ' + formatDateToYYYYMMDD(this.selected.endDate);
+      }
+    }
   }
 
   private handleBlur() {
