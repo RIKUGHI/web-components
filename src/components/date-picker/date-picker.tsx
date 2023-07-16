@@ -41,23 +41,23 @@ export class DatePicker {
     }
   }
 
+  componentShouldUpdate(newValue, oldValue, propName) {
+    if (propName === 'defaultValue') {
+      this.handleSetSelectedWithPreview(newValue);
+    }
+
+    if (oldValue) {
+    }
+  }
+
   componentWillLoad() {
-    const defaultValue = new Date(this.defaultValue);
-
-    if (isNaN(defaultValue.getDate())) return;
-
-    defaultValue.setHours(0, 0, 0, 0);
-    this.selected = defaultValue;
-
-    this.date = this.selected;
-    this.currentMonth = this.date.getMonth();
-    this.currentYear = this.date.getFullYear();
-
-    this.inputEl.value = formatDateToYYYYMMDD(defaultValue);
+    this.handleSetSelectedWithPreview(this.defaultValue);
   }
 
   private handleFocus() {
     this.open = true;
+
+    this.adjustDatePicker();
 
     // auto directions
     setTimeout(() => {
@@ -84,6 +84,25 @@ export class DatePicker {
     this.datePickerContainerRef.classList.remove('top-to-bottom');
     this.datePickerContainerRef.classList.remove('bottom-to-top');
     window.onmousedown = null;
+  }
+
+  private handleSetSelectedWithPreview(v: string | Date) {
+    const defaultValue = new Date(v);
+
+    if (isNaN(defaultValue.getDate())) return;
+
+    defaultValue.setHours(0, 0, 0, 0);
+    this.selected = defaultValue;
+
+    this.inputEl.value = formatDateToYYYYMMDD(defaultValue);
+  }
+
+  private adjustDatePicker() {
+    if (this.selected instanceof Date) {
+      this.date = this.selected;
+      this.currentMonth = this.date.getMonth();
+      this.currentYear = this.date.getFullYear();
+    }
   }
 
   private handleSetCurrentMonth(month: number) {
