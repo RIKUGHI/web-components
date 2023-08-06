@@ -33,6 +33,7 @@ export namespace Components {
         "maxDate": Date;
         "minDate": Date;
         "placeholder": string;
+        "placeholderFormat": string;
         "rangeValueChanged": undefined | ((v: string) => string);
         "separator": string;
         "shortcutList": boolean | ShortcutType[];
@@ -132,6 +133,7 @@ declare namespace LocalJSX {
         "maxDate"?: Date;
         "minDate"?: Date;
         "placeholder"?: string;
+        "placeholderFormat"?: string;
         "rangeValueChanged"?: undefined | ((v: string) => string);
         "separator"?: string;
         "shortcutList"?: boolean | ShortcutType[];
