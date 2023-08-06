@@ -94,14 +94,21 @@ export class DateRangePicker {
       throw new Error('The value structure must be of type DateRangeType');
     } else {
       const { startDate, endDate } = v;
+      const stackedValue = [];
 
-      if (isNaN(startDate.getDate()) || isNaN(endDate.getDate())) return;
+      if ((startDate && isNaN(startDate.getDate())) || (endDate && isNaN(endDate.getDate()))) return;
+
+      if (startDate) {
+        stackedValue.push(formatDateToYYYYMMDD(startDate));
+      }
+
+      if (endDate) {
+        stackedValue.push(formatDateToYYYYMMDD(endDate));
+      }
 
       this.selected = this.sortAndResetDateRange(v);
 
-      if (this.selected.startDate && this.selected.endDate) {
-        this.inputEl.value = formatDateToYYYYMMDD(this.selected.startDate) + ' ~ ' + formatDateToYYYYMMDD(this.selected.endDate);
-      }
+      this.inputEl.value = stackedValue.map(v => v).join(' ~ ');
     }
   }
 

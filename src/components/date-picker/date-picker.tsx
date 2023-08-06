@@ -87,7 +87,13 @@ export class DatePicker {
     window.onmousedown = null;
   }
 
-  private handleSetSelectedWithPreview(v: string | Date) {
+  private handleSetSelectedWithPreview(v: string | null | Date) {
+    if (v === null) {
+      this.selected = null;
+      this.inputEl.value = '';
+      return;
+    }
+
     const defaultValue = new Date(v);
 
     if (isNaN(defaultValue.getDate())) return;
