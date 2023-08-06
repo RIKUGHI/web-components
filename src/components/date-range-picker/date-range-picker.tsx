@@ -16,6 +16,9 @@ export type ShortcutType = {
   shadow: true,
 })
 export class DateRangePicker {
+  /**
+   * id of input element
+   */
   @Prop() target: string;
 
   @Prop() defaultValue: undefined | DateRangeType;

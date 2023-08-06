@@ -23,6 +23,9 @@ export namespace Components {
         "displayFormat": (d: Date) => string;
         "maxDate": Date;
         "minDate": Date;
+        /**
+          * id of input element
+         */
         "target": string;
         "valueChanged": undefined | ((v: string) => string);
     }
@@ -37,6 +40,9 @@ export namespace Components {
         "rangeValueChanged": undefined | ((v: string) => string);
         "separator": string;
         "shortcutList": boolean | ShortcutType[];
+        /**
+          * id of input element
+         */
         "target": string;
         "useConfirmation": boolean;
     }
@@ -123,6 +129,9 @@ declare namespace LocalJSX {
         "displayFormat"?: (d: Date) => string;
         "maxDate"?: Date;
         "minDate"?: Date;
+        /**
+          * id of input element
+         */
         "target"?: string;
         "valueChanged"?: undefined | ((v: string) => string);
     }
@@ -137,6 +146,9 @@ declare namespace LocalJSX {
         "rangeValueChanged"?: undefined | ((v: string) => string);
         "separator"?: string;
         "shortcutList"?: boolean | ShortcutType[];
+        /**
+          * id of input element
+         */
         "target"?: string;
         "useConfirmation"?: boolean;
     }

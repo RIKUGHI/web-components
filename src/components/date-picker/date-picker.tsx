@@ -8,6 +8,9 @@ import { NullableDate } from '../datePickerParts/single-date-picker/single-date-
   shadow: true,
 })
 export class DatePicker {
+  /**
+   * id of input element
+   */
   @Prop() target: string;
   /**
    * YYYY-MM-DD
