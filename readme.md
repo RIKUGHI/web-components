@@ -2,5 +2,192 @@
 
 # Web Components
 
-- [date picker](src/components/date-picker/readme.md)
-- [date range picker](src/components/date-range-picker/readme.md)
+[![npm version](https://img.shields.io/npm/v/@rikughi/web-components?style=flat-square)](https://www.npmjs.com/package/@rikughi/web-components)
+[![npm version](https://img.shields.io/npm/dt/@rikughi/web-components?style=flat-square)](https://www.npmjs.com/package/@rikughi/web-components)
+
+## Contents
+
+- [Installation](#installation)
+- [DatePicker](src/components/date-picker/readme.md)
+- [DateRangePicker](src/components/date-range-picker/readme.md)
+  <!-- - [Features](#features) -->
+  <!-- - [Documentation](#documentation) -->
+  <!-- - [Simple Usage](#simple-usage) -->
+
+## Installation
+
+### Install via npm
+
+```
+$ npm i @rikughi/web-components
+```
+
+### Or
+
+```javascript
+<script type="module" src="https://unpkg.com/@rikughi/web-components@{VERSION}/dist/web-components/web-components.esm.js"></script>
+```
+
+## DatePicker
+
+- [Properties](src/components/date-picker/readme.md)
+- [Usage](#datepicker-usage)
+
+### DatePicker Usage
+
+Set target property to id of input element
+
+```javascript
+<div style="position: relative;">
+  <input id="date-picker" type="text" />
+  <date-picker target="date-picker"></date-picker>
+</div>
+```
+
+### defaultStyle
+
+You can customize the style according to your preferences
+
+- Default
+
+  ![Bottom Sheet Tagihan](/docs/assets/img/default_date_picker.png)
+
+- Customized
+  ```javascript
+  <date-picker target="date-picker" default-style='{"--green-600":"#0284c7", "--green-50":"#eff6ff"}'></date-picker>
+  ```
+  ![Bottom Sheet Tagihan](/docs/assets/img/customized_date_picker.png)
+- The provided properties
+  | Property | Default |
+  | --------------- | ----------- |
+  | `--gray-50` | `#f9fafb` |
+  | `--gray-300` | `#d1d5db` |
+  | `--gray-900` | `#111827` |
+  | `--green-50` | `#f0fdf4` |
+  | `--green-600` | `#16a34a` |
+  | `--red-300` | `#fca5a5` |
+  | `--red-600` | `#dc2626` |
+  | `--white` | `#ffffff` |
+  | `--font-family` | `system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif` |
+
+### defaultValue
+
+```javascript
+<date-picker target="date-picker" default-value="2023-09-01"></date-picker>
+```
+
+### displayFormat
+
+```javascript
+const datePicker = document.querySelector('[target="date-picker"]');
+
+datePicker.displayFormat = d => {
+  return String(d.getDate()).padStart(2, '0') + '/' + String(d.getMonth() + 1).padStart(2, '0') + '/' + d.getFullYear();
+};
+```
+
+### minDate
+
+```javascript
+datePicker.minDate = new Date('2023-09-01');
+```
+
+### maxDate
+
+```javascript
+datePicker.maxDate = new Date('2023-09-20');
+```
+
+### valueChanged
+
+```javascript
+datePicker.valueChanged = v => {
+  console.log(v);
+};
+```
+
+## DateRangePicker
+
+- [Properties](src/components/date-range-picker/readme.md)
+- [Usage](#daterangepicker-usage)
+
+### DateRangePicker Usage
+
+Set target property to id of input element
+
+```javascript
+<div style="position: relative;">
+  <input id="date-range-picker" type="text" />
+  <date-range-picker target="date-range-picker"></date-range-picker>
+</div>
+```
+
+![Bottom Sheet Tagihan](/docs/assets/img/default_date_range_picker.png)
+
+### defaultValue
+
+```javascript
+const dateRangePicker = document.querySelector('[target="date-range-picker"]');
+
+dateRangePicker.defaultValue = {
+  startDate: new Date(2023, 8, 11),
+  endDate: new Date(2023, 8, 15),
+};
+
+// or
+
+dateRangePicker.defaultValue = {
+  startDate: null,
+  endDate: null,
+};
+```
+
+### placeholder
+
+You must use the `use-confirmation` property to use `placeholder` property
+
+```javascript
+<date-range-picker target="date-range-picker" use-confirmation placeholder="DD/MM/YYYY"></date-range-picker>
+```
+
+### rangeValueChanged
+
+```javascript
+dateRangePicker.rangeValueChanged = v => {
+  console.log(v);
+};
+```
+
+### separator
+
+```javascript
+<date-range-picker target="date-range-picker" separator=" to "></date-range-picker>
+```
+
+### shortcutList
+
+```javascript
+const currentDate = new Date();
+dateRangePicker.shortcutList = [
+  {
+    label: 'This month',
+    range: {
+      startDate: new Date(currentDate.getFullYear(), currentDate.getMonth(), 1),
+      endDate: new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0),
+    },
+  },
+  {
+    label: 'This year',
+    range: {
+      startDate: new Date(currentDate.getFullYear(), 0, 1),
+      endDate: new Date(currentDate.getFullYear(), 12, 0),
+    },
+  },
+];
+```
+
+### useConfirmation
+
+```javascript
+<date-range-picker target="date-range-picker" use-confirmation></date-range-picker>
+```
