@@ -25,7 +25,6 @@ export class DateRangePicker {
   @Prop() defaultStyle: string;
   @Prop() minDate: Date;
   @Prop() maxDate: Date;
-  @Prop() placeholderFormat: string;
   @Prop() displayFormat: (d: Date) => string;
   @Prop() placeholder: string;
   @Prop() separator: string;
@@ -359,9 +358,9 @@ export class DateRangePicker {
                 <div class="flex flex-col justify-between space-y-4 border-t border-gray-300 px-6 py-4 md:flex-row md:space-y-0">
                   <div class="flex items-center space-x-5">
                     <div class="flex w-full items-center space-x-2 text-sm font-semibold md:w-auto">
-                      {previewDate({ date: this.selected.startDate, placeholder: this.placeholder, placeholderFormat: this.placeholderFormat, displayFormat: this.displayFormat })}
+                      {previewDate({ date: this.selected.startDate, placeholder: this.placeholder, displayFormat: this.displayFormat })}
                       <span class="mt-0.5 h-0.5 w-3 bg-gray-400"></span>
-                      {previewDate({ date: this.selected.endDate, placeholder: this.placeholder, placeholderFormat: this.placeholderFormat, displayFormat: this.displayFormat })}
+                      {previewDate({ date: this.selected.endDate, placeholder: this.placeholder, displayFormat: this.displayFormat })}
                     </div>
                     {this.selected.startDate && this.selected.endDate && (
                       <span class="hidden text-sm font-semibold md:block">
